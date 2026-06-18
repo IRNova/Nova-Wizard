@@ -92,11 +92,45 @@ Nova Wizard is a **local** Windows tool that deploys the [Nova Proxy](https://gi
 
 ---
 
-## Requirements
+## Requirements / نیازمندی‌ها
 
-- Windows 7 / 8 / 10 / 11 (64-bit)
-- A Cloudflare account
-- Internet connection
+- **Windows** 7 / 8 / 10 / 11 (64-bit) — از EXE آماده استفاده کن
+- **Linux** — Python 3.8+ و اجرای مستقیم (ببین پایین)
+- A Cloudflare account / حساب Cloudflare
+- Internet connection / اتصال به اینترنت
+
+---
+
+## Linux / لینوکس
+
+Nova Wizard runs natively on Linux — no EXE needed.
+
+نوا ویزارد روی لینوکس بدون نیاز به EXE اجرا می‌شود.
+
+### Quick start / اجرای سریع
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/IRNova/Nova-Wizard.git
+cd Nova-Wizard
+
+# 2. Make sure static/index.html is present (from your build machine)
+#    The static/ folder is required but not in the public repo.
+
+# 3. Run directly with Python
+python3 nova_wizard.py
+```
+
+### Requirements / پیش‌نیازها
+
+- Python 3.8+ (built-in on most distros)
+- `static/index.html` in the same directory
+
+### Note / نکته
+
+The `static/` folder is **not** included in the public GitHub repo. You need to copy it from your Windows build machine or keep it locally.
+
+پوشه `static/` در مخزن عمومی گیت‌هاب **نیست**. باید از روی سیستم ویندوزی که باهاش ساختی کپی کنی یا محلی نگه‌ش داری.
 
 ---
 
