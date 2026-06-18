@@ -12,6 +12,11 @@
     <a href="https://www.youtube.com/@novaproxyir">YouTube</a> ·
     <a href="https://x.com/irNovaProxy">X / Twitter</a>
   </p>
+  <p>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple?style=for-the-badge" alt="License"></a>
+    <a href="https://github.com/IRNova/Nova-Proxy"><img src="https://img.shields.io/badge/version-3.6.3-blueviolet?style=for-the-badge" alt="Version"></a>
+    <a href="https://github.com/IRNova/Nova-Proxy"><img src="https://img.shields.io/github/stars/IRNova/Nova-Proxy?style=for-the-badge&color=0ea5e9" alt="Stars"></a>
+  </p>
 </div>
 
 ---
@@ -137,16 +142,18 @@ pyinstaller --onefile --name NovaWizard --add-data "static;static" --icon app.ic
 
 ---
 
-## Links
+## 🌐 Links
 
-| | |
-|---|---|
-| 🌐 **Website** | [https://novaproxy.online/](https://novaproxy.online/) |
-| 📢 **Telegram Channel** | [https://t.me/irnova_proxy](https://t.me/irnova_proxy) |
-| 💬 **Telegram Group** | [https://t.me/irnovaproxy_group](https://t.me/irnovaproxy_group) |
-| ▶️ **YouTube** | [https://www.youtube.com/@novaproxyir](https://www.youtube.com/@novaproxyir) |
-| 🐦 **X / Twitter** | [https://x.com/irNovaProxy](https://x.com/irNovaProxy) |
-| 📦 **Nova Proxy Worker** | [https://github.com/IRNova/Nova-Proxy](https://github.com/IRNova/Nova-Proxy) |
+<div align="center">
+
+[![Website](https://img.shields.io/badge/%F0%9F%8C%90%20Website-novaproxy.online-0ea5e9?style=for-the-badge)](https://novaproxy.online/)
+[![Telegram Channel](https://img.shields.io/badge/%E2%9C%88%EF%B8%8F%20Telegram%20Channel-@irnova__proxy-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova_proxy)
+[![Telegram Group](https://img.shields.io/badge/%F0%9F%91%A5%20Telegram%20Group-@irnovaproxy__group-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnovaproxy_group)
+[![YouTube](https://img.shields.io/badge/%E2%96%B6%EF%B8%8F%20YouTube-@novaproxyir-ff0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/@novaproxyir)
+[![X (Twitter)](https://img.shields.io/badge/%F0%9D%95%8F%20X-@irNovaProxy-000000?style=for-the-badge&logo=x)](https://x.com/irNovaProxy)
+[![GitHub](https://img.shields.io/badge/%F0%9F%90%99%20GitHub-IRNova/Nova--Proxy-181717?style=for-the-badge&logo=github)](https://github.com/IRNova/Nova-Proxy)
+
+</div>
 
 ---
 
