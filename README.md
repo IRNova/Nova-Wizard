@@ -126,12 +126,6 @@ python3 nova_wizard.py
 - Python 3.8+ (built-in on most distros)
 - `static/index.html` in the same directory
 
-### Note / نکته
-
-The `static/` folder is **not** included in the public GitHub repo. You need to copy it from your Windows build machine or keep it locally.
-
-پوشه `static/` در مخزن عمومی گیت‌هاب **نیست**. باید از روی سیستم ویندوزی که باهاش ساختی کپی کنی یا محلی نگه‌ش داری.
-
 ---
 
 ## Build from Source
