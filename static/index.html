@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Nova Wizard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-alt:#090b12;--card:rgba(255,255,255,.04);--card2:rgba(255,255,255,.06);--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--tx:#eef1f7;--mu:#9aa4b8;--cyan:#22d3ee;--violet:#a855f7;--grad:linear-gradient(120deg,#22d3ee 0%,#818cf8 50%,#a855f7 100%);--ok:#34d399;--bad:#f87171;--warn:#f59e0b;--r:16px;--code:#0b0e16;--nav:rgba(5,6,10,.7);--font:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;--font-fa:'Vazirmatn','Inter',system-ui,Tahoma,Arial,sans-serif}
+:root[data-theme='light']{--bg:#f7f8fc;--bg-alt:#eef1f7;--card:rgba(15,23,42,.04);--card2:rgba(15,23,42,.07);--line:rgba(15,23,42,.12);--line2:rgba(15,23,42,.22);--tx:#0d1117;--mu:#51607a;--cyan:#0891b2;--violet:#9333ea;--nav:rgba(247,248,252,.8);--code:#0d1424}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth} html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:var(--font);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+html[lang='fa'] body{font-family:var(--font-fa);line-height:1.8}
+a{color:var(--cyan);text-decoration:none} a:hover{text-decoration:underline}
+.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(18px,5vw,40px);backdrop-filter:blur(14px);background:var(--nav);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.15rem}
+.logo img{width:30px;height:30px;border-radius:7px;display:block}
+.logo .mk{width:30px;height:30px;border-radius:7px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:900;color:#05060a;font-size:16px}
+.controls{display:inline-flex;align-items:center;gap:10px}
+.langs{display:inline-flex;padding:3px;border-radius:999px;border:1px solid var(--line2);background:var(--card2);gap:2px}
+.langs button{border:0;cursor:pointer;font:inherit;font-size:.82rem;font-weight:600;min-width:34px;padding:5px 12px;border-radius:999px;color:var(--mu);background:transparent}
+.langs button.on{color:#05060a;background:var(--grad)}
+.theme{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:999px;border:1px solid var(--line2);background:var(--card2);color:var(--tx);cursor:pointer;font-size:1rem}
+.wrap{max-width:640px;margin:0 auto;padding:clamp(24px,5vw,44px) clamp(18px,5vw,28px) 80px}
+.hero{text-align:center;margin-bottom:24px}
+.eyebrow{display:inline-block;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px}
+[dir='rtl'] .eyebrow{letter-spacing:normal;text-transform:none}
+.hero h1{font-size:clamp(1.8rem,5vw,2.4rem);font-weight:800;margin:0 0 8px}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mu);margin:0 auto;max-width:480px;font-size:1rem}
+.stepper{display:flex;align-items:flex-start;justify-content:center;gap:6px;margin:22px 0 8px;flex-wrap:wrap}
+.step-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;min-width:48px;max-width:90px}
+.step{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;border:1px solid var(--line2);background:var(--card2);color:var(--mu)}
+.step.on{border-color:transparent;background:var(--grad);color:#05060a}
+.step.done{border-color:transparent;background:rgba(34,211,238,.25);color:var(--cyan)}
+.step-label{font-size:.72rem;color:var(--mu);text-align:center}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;margin-top:18px}
+.card h2{font-size:1.25rem;font-weight:700;margin:0 0 6px}
+.sub{color:var(--mu);font-size:.95rem;margin:0 0 18px}
+.btn-wrap{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.btn-big{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--grad);color:#05060a;font-weight:700;font-size:1rem;padding:14px 26px;border-radius:12px;border:none;cursor:pointer;font-family:inherit;box-shadow:0 10px 30px -10px rgba(99,102,241,.7);transition:transform .15s}
+.btn-big:active{transform:scale(.985)} .btn-big[disabled]{opacity:.55;cursor:not-allowed;box-shadow:none}
+.btn-ghost{background:var(--card2);border:1px solid var(--line2);box-shadow:none;color:var(--tx);font-weight:600}
+.note{display:flex;gap:10px;padding:12px 14px;border-radius:10px;font-size:.9rem;margin-top:14px;border:1px solid var(--line);background:var(--card);color:var(--mu)}
+.note b{color:var(--tx);font-weight:600}
+.note.iran{background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.3)} .note.iran b{color:#c89bf5}
+.name-group{margin-bottom:16px}
+label{display:block;font-weight:600;font-size:.9rem;margin:0 0 6px}
+input,select{width:100%;background:var(--code);border:1px solid var(--line);border-radius:10px;color:var(--tx);font-size:15px;padding:12px 14px;font-family:inherit}
+input:focus,select:focus{outline:none;border-color:var(--cyan)}
+.msg{padding:12px 14px;border-radius:10px;font-size:.92rem;margin-bottom:14px;border:1px solid}
+.msg.info{background:rgba(34,211,238,.07);border-color:rgba(34,211,238,.25);color:var(--cyan)}
+.msg.ok{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3);color:#7ee0b8}
+.msg.err{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.35);color:#fca5a5}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--line2);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite;vertical-align:-3px;margin-inline-end:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.result-box{background:var(--code);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:14px;font-size:.92rem;line-height:1.9;word-break:break-all}
+.result-box code{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:.85em;color:var(--cyan)}
+.done-banner{display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,rgba(34,211,238,.1),var(--card));border:1px solid rgba(34,211,238,.4);border-radius:12px;padding:16px;margin-bottom:6px}
+.done-banner .ic{font-size:1.6rem}
+.done-banner h2{margin:0;font-size:1.2rem;color:var(--cyan)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:9px 20px;border-radius:10px;font-size:.85rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:50}
+.toast.show{opacity:1}
+.foot{text-align:center;color:var(--mu);font-size:.8rem;margin-top:28px}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="logo"><img src="https://raw.githubusercontent.com/iiviirv/irnova-site/main/brand/nova-logo-gradient.svg" alt="Nova" onerror="this.outerHTML='<span class=mk>N</span>'"><span>Nova</span></div>
+  <div class="controls">
+    <div class="langs"><button id="lang-en" class="on" onclick="setLang('en')">EN</button><button id="lang-fa" onclick="setLang('fa')">FA</button></div>
+    <button class="theme" id="theme" onclick="toggleTheme()" aria-label="Theme">☾</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="eyebrow" id="t-eyebrow">Local deployer · OAuth · no token needed</span>
+    <h1 id="t-title">Nova <span class="grad">Wizard</span></h1>
+    <p id="t-sub">Deploy your own Nova panel to Cloudflare with one secure login. The worker, KV, and D1 database are created automatically.</p>
+  </div>
+
+  <div class="stepper hide" id="stepIndicator"></div>
+  <div id="panelMsg"></div>
+
+  <div class="card" id="step0">
+    <h2 id="s0-h">Welcome</h2>
+    <p class="sub" id="s0-sub">This runs entirely on your computer. Your Cloudflare login never leaves your machine. Ready to set up your private Nova panel?</p>
+    <div class="btn-wrap"><button class="btn-big" id="s0-btn" onclick="goStep1()">Get started</button></div>
+    <div class="note"><span>🔒</span><div id="s0-note"><b>Private &amp; local.</b> Nothing is sent anywhere except directly to Cloudflare, on your own account.</div></div>
+  </div>
+
+  <div class="card hide" id="step1">
+    <h2 id="s1-h">Sign in with Cloudflare</h2>
+    <p class="sub" id="s1-sub">Click below — Cloudflare opens in a new tab. Approve access, then come back here. No API token to create.</p>
+    <div class="btn-wrap"><button class="btn-big" id="oauthBtn" onclick="startOAuth()">Login with Cloudflare</button></div>
+    <div class="note iran"><span>🇮🇷</span><div id="s1-iran"><b>In Iran:</b> if the Cloudflare page won't open, turn on your current VPN first.</div></div>
+  </div>
+
+  <div class="card hide" id="step2">
+    <h2 id="s2-h">Choose your account</h2>
+    <p class="sub" id="s2-sub">Pick which Cloudflare account to deploy on.</p>
+    <div class="name-group"><label id="s2-l">Cloudflare account</label><select id="account_id"></select></div>
+    <div class="btn-wrap"><button class="btn-big" id="s2-btn" onclick="goStep3()">Continue</button></div>
+  </div>
+
+  <div class="card hide" id="step3">
+    <h2 id="s3-h">Name your resources</h2>
+    <p class="sub" id="s3-sub">These are pre-filled with safe, random names. You can leave them as-is.</p>
+    <div class="name-group"><label id="s3-w">Worker / project name</label><input id="worker_name" placeholder="auto-generated"></div>
+    <div class="name-group"><label id="s3-kv">KV namespace name</label><input id="kv_namespace" placeholder="auto-generated"></div>
+    <div class="name-group"><label id="s3-d1">D1 database name</label><input id="d1_name" placeholder="auto-generated"></div>
+    <div class="btn-wrap"><button class="btn-big" id="s3-btn" onclick="doDeploy()">Deploy now</button></div>
+  </div>
+
+  <div class="card hide" id="step4">
+    <h2 id="s4-h">Deploying…</h2>
+    <p class="sub" id="deployStatus">Starting…</p>
+    <div id="deployProgress"><span class="spinner"></span><span id="s4-wait">Setting things up…</span></div>
+  </div>
+
+  <div class="card hide" id="step5">
+    <div class="done-banner"><span class="ic">🎉</span><h2 id="s5-h">Your Nova is ready!</h2></div>
+    <p class="sub" id="s5-sub" style="margin-top:14px">Open your panel and set everything up. Save the details below somewhere safe.</p>
+    <div class="result-box" id="resultArea"></div>
+    <div class="btn-wrap" style="margin-top:16px"><button class="btn-big" id="s5-open" onclick="if(window._panelUrl)window.open(window._panelUrl,'_blank')">Open my panel</button><button class="btn-big btn-ghost" id="s5-again" onclick="goStep3()">Deploy another</button></div>
+    <div class="note iran"><span>🇮🇷</span><div id="s5-iran"><b>In Iran:</b> *.workers.dev is filtered — add a Custom Domain to the worker in Cloudflare and use that address.</div></div>
+  </div>
+
+  <div class="foot" style="margin-top:40px">
+    <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:14px">
+      <a href="https://novaproxy.online/" target="_blank" title="Website" style="color:var(--mu);font-size:1.3rem" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color=''">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </a>
+      <a href="https://t.me/irnova_proxy" target="_blank" title="Telegram Channel" style="color:var(--mu);font-size:1.3rem" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color=''">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2L.5 9.5l8.5 3.5 3.5 8.5 9-17.5z"/><path d="M9.5 13L21.5 2"/></svg>
+      </a>
+      <a href="https://t.me/irnovaproxy_group" target="_blank" title="Telegram Group" style="color:var(--mu);font-size:1.3rem" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color=''">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+      </a>
+      <a href="https://www.youtube.com/@novaproxyir" target="_blank" title="YouTube" style="color:var(--mu);font-size:1.3rem" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color=''">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+      </a>
+      <a href="https://x.com/irNovaProxy" target="_blank" title="X / Twitter" style="color:var(--mu);font-size:1.3rem" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color=''">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16zM4 20l6.768 -6.768M17.232 3.232l-6.768 6.768"/></svg>
+      </a>
+      <a href="https://github.com/IRNova/Nova-Proxy" target="_blank" title="Nova Proxy Worker" style="color:var(--mu);font-size:1.3rem" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color=''">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+    </div>
+    <div style="font-size:.82rem;color:var(--mu)">Nova Wizard · <a href="https://github.com/IRNova" target="_blank" style="color:var(--mu)">IRNova</a></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var I18N = {
+ en:{eyebrow:'Local deployer · OAuth · no token needed',title:'Nova Wizard',sub:'Deploy your own Nova panel to Cloudflare with one secure login. The worker, KV, and D1 database are created automatically.',
+   s0h:'Welcome',s0sub:'This runs entirely on your computer. Your Cloudflare login never leaves your machine. Ready to set up your private Nova panel?',s0btn:'Get started',s0note:'<b>Private &amp; local.</b> Nothing is sent anywhere except directly to Cloudflare, on your own account.',
+   s1h:'Sign in with Cloudflare',s1sub:'Click below — Cloudflare opens in a new tab. Approve access, then come back here. No API token to create.',oauth:'Login with Cloudflare',s1iran:"<b>In Iran:</b> if the Cloudflare page won't open, turn on your current VPN first.",
+   s2h:'Choose your account',s2sub:'Pick which Cloudflare account to deploy on.',s2l:'Cloudflare account',s2btn:'Continue',
+   s3h:'Name your resources',s3sub:'These are pre-filled with safe, random names. You can leave them as-is.',s3w:'Worker / project name',s3kv:'KV namespace name',s3d1:'D1 database name',s3btn:'Deploy now',
+   s4h:'Deploying…',s4wait:'Setting things up…',
+   s5h:'Your Nova is ready!',s5sub:'Open your panel and set everything up. Save the details below somewhere safe.',s5open:'Open my panel',s5again:'Deploy another',s5iran:'<b>In Iran:</b> *.workers.dev is filtered — add a Custom Domain to the worker in Cloudflare and use that address.',
+   labels:['Welcome','Login','Account','Names','Deploy','Done']},
+ fa:{eyebrow:'نصب‌کنندهٔ محلی · OAuth · بدون توکن',title:'دستیار نوا',sub:'پنل نوای خودت را با یک ورودِ امن روی Cloudflare دیپلوی کن. ورکر، KV و دیتابیس D1 خودکار ساخته می‌شوند.',
+   s0h:'خوش آمدی',s0sub:'این کاملاً روی کامپیوتر خودت اجرا می‌شود. ورودِ Cloudflare تو هرگز از دستگاهت خارج نمی‌شود. آماده‌ای پنل خصوصی نوا را بسازی؟',s0btn:'شروع',s0note:'<b>خصوصی و محلی.</b> هیچ‌چیز جایی فرستاده نمی‌شود جز مستقیم به Cloudflare، روی حساب خودت.',
+   s1h:'ورود با Cloudflare',s1sub:'پایین را بزن — Cloudflare در یک تب جدید باز می‌شود. اجازه بده، بعد به اینجا برگرد. نیازی به ساخت توکن نیست.',oauth:'ورود با Cloudflare',s1iran:'<b>در ایران:</b> اگر صفحهٔ Cloudflare باز نشد، اول VPN فعلی‌ات را روشن کن.',
+   s2h:'حسابت را انتخاب کن',s2sub:'انتخاب کن روی کدام حساب Cloudflare دیپلوی شود.',s2l:'حساب Cloudflare',s2btn:'ادامه',
+   s3h:'نام منابع',s3sub:'این‌ها با نام‌های تصادفی و امن از قبل پر شده‌اند. می‌توانی همین‌طور بگذاری.',s3w:'نام ورکر / پروژه',s3kv:'نام فضای KV',s3d1:'نام دیتابیس D1',s3btn:'الان دیپلوی کن',
+   s4h:'در حال دیپلوی…',s4wait:'در حال آماده‌سازی…',
+   s5h:'نوای تو آماده است!',s5sub:'پنلت را باز کن و تنظیمش کن. مشخصات زیر را جایی امن ذخیره کن.',s5open:'باز کردن پنل من',s5again:'دیپلوی یکی دیگر',s5iran:'<b>در ایران:</b> *.workers.dev فیلتر است — یک دامنهٔ اختصاصی به ورکر اضافه کن و از آن استفاده کن.',
+   labels:['خوش‌آمد','ورود','حساب','نام‌ها','دیپلوی','پایان']}
+};
+var L='en';
+function T(k){var d=(I18N[L]||I18N.en);return d[k]!==undefined?d[k]:(I18N.en[k]!==undefined?I18N.en[k]:k);}
+function st(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+function sh(id,v){var e=document.getElementById(id);if(e)e.innerHTML=v;}
+function setLang(l){
+  L=l;var fa=l==='fa';
+  document.documentElement.lang=l;document.documentElement.dir=fa?'rtl':'ltr';
+  document.getElementById('lang-en').classList.toggle('on',!fa);
+  document.getElementById('lang-fa').classList.toggle('on',fa);
+  st('t-eyebrow',T('eyebrow'));sh('t-title',(fa?'دستیار <span class="grad">نوا</span>':'Nova <span class="grad">Wizard</span>'));st('t-sub',T('sub'));
+  st('s0-h',T('s0h'));st('s0-sub',T('s0sub'));st('s0-btn',T('s0btn'));sh('s0-note',T('s0note'));
+  st('s1-h',T('s1h'));st('s1-sub',T('s1sub'));st('oauthBtn',T('oauth'));sh('s1-iran',T('s1iran'));
+  st('s2-h',T('s2h'));st('s2-sub',T('s2sub'));st('s2-l',T('s2l'));st('s2-btn',T('s2btn'));
+  st('s3-h',T('s3h'));st('s3-sub',T('s3sub'));st('s3-w',T('s3w'));st('s3-kv',T('s3kv'));st('s3-d1',T('s3d1'));st('s3-btn',T('s3btn'));
+  st('s4-h',T('s4h'));st('s4-wait',T('s4wait'));
+  st('s5-h',T('s5h'));st('s5-sub',T('s5sub'));st('s5-open',T('s5open'));st('s5-again',T('s5again'));sh('s5-iran',T('s5iran'));
+  var si=document.getElementById('stepIndicator');
+  if(currentStep>=0 && si && !si.classList.contains('hide')) steps(currentStep);
+  try{localStorage.setItem('nova-lang',l)}catch(e){}
+}
+function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',c);document.getElementById('theme').textContent=c==='light'?'☀':'☾';try{localStorage.setItem('nova-theme',c)}catch(e){}}
+
+var store={deployments:[],oauth_connected:false,oauth_info:{}};
+var accounts=[];var deployType='worker';var currentStep=0;
+window._panelUrl='';
+function $(id){return document.getElementById(id);}
+function val(id){return $(id).value.trim();}
+function show(el){el.classList.remove('hide');}
+function hide(el){el.classList.add('hide');}
+function msg(text,cls){var el=$('panelMsg');el.innerHTML=text?'<div class="msg '+(cls||'info')+'">'+esc(text)+'</div>':'';}
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toast(t){var el=$('toast');el.textContent=t;el.classList.add('show');setTimeout(function(){el.classList.remove('show')},1200);}
+function steps(n){var labels=T('labels');var h='';for(var i=0;i<labels.length;i++){var cls=i<n?'done':(i===n?'on':'');h+='<div class="step-wrap"><div class="step '+cls+'">'+(i<n?'&#10003;':(i+1))+'</div><div class="step-label">'+labels[i]+'</div></div>';}$('stepIndicator').innerHTML=h;show($('stepIndicator'));}
+function gotoStep(n){for(var i=0;i<=5;i++){var el=$('step'+i);if(el)el.className='card'+(i===n?'':' hide');}steps(n);currentStep=n;msg('');}
+function goStep0(){gotoStep(0);hide($('stepIndicator'));}
+function goStep1(){gotoStep(1);}
+function goStep3(){gotoStep(3);loadSuggestions();}
+
+async function api(method,path,data){var opt={method:method,headers:{'Content-Type':'application/json'},cache:'no-store'};if(data)opt.body=JSON.stringify(data);var r=await fetch(path,opt);var j;try{j=await r.json();}catch(e){throw new Error('Invalid response');}if(!r.ok||!j.ok)throw new Error(j.error||'HTTP '+r.status);return j;}
+
+async function refreshState(){try{var j=await api('GET','/api/config');store=j;if(j.oauth_connected){gotoStep(2);loadAccounts();}}catch(e){msg(e.message,'err');}}
+
+async function startOAuth(){var btn=$('oauthBtn');btn.disabled=true;btn.textContent=(L==='fa'?'در حال باز کردن…':'Opening Cloudflare…');try{var j=await api('GET','/api/oauth/url');if(j.url){window.open(j.url,'_blank');msg((L==='fa'?'Cloudflare در تب جدید باز شد. آنجا اجازه بده، بعد برگرد.':'Cloudflare opened in a new tab. Authorize there, then return here.'),'info');pollOAuth();}else throw new Error('No URL');}catch(e){msg('Error: '+e.message,'err');btn.disabled=false;btn.textContent=T('oauth');}}
+
+function pollOAuth(){var iv=setInterval(async function(){try{var j=await api('GET','/api/oauth/status');if(j.connected){clearInterval(iv);msg((L==='fa'?'وصل شد!':'Connected!'),'ok');gotoStep(2);loadAccounts();}else if(j.error){clearInterval(iv);msg('Error: '+j.error,'err');$('oauthBtn').disabled=false;$('oauthBtn').textContent=T('oauth');}}catch(e){}},1500);setTimeout(function(){clearInterval(iv);},120000);}
+
+async function loadAccounts(){try{var j=await api('POST','/api/accounts',{});accounts=j.accounts||[];var sel=$('account_id');sel.innerHTML='';for(var i=0;i<accounts.length;i++){var o=document.createElement('option');o.value=accounts[i].id;o.textContent=accounts[i].name+' ('+accounts[i].id.slice(0,8)+'…)';sel.appendChild(o);}if(accounts.length===1){sel.value=accounts[0].id;loadSuggestions();}}catch(e){msg('Failed to load accounts: '+e.message,'err');}}
+
+async function loadSuggestions(){try{var j=await api('GET','/api/config');if(j.suggestion){if(!$('worker_name').value)$('worker_name').value=j.suggestion.worker_name||'';if(!$('kv_namespace').value)$('kv_namespace').value=j.suggestion.kv_namespace||'';if(!$('d1_name').value)$('d1_name').value=j.suggestion.d1_name||'';}}catch(e){}}
+
+async function doDeploy(){var sel=$('account_id');var aid=sel.value;if(!aid){msg((L==='fa'?'اول یک حساب انتخاب کن.':'Select an account first.'),'err');return;}await loadSuggestions();gotoStep(4);$('deployStatus').textContent=(L==='fa'?'دریافت ورکر از گیت‌هاب…':'Fetching worker from GitHub…');$('deployProgress').innerHTML='<span class="spinner"></span>'+(L==='fa'?'در حال دانلود…':'Downloading…');try{var f=await api('GET','/api/fetch-worker');$('deployStatus').textContent=(L==='fa'?'ورکر دانلود شد ('+(f.size/1024).toFixed(1)+' KB). در حال دیپلوی…':'Worker downloaded ('+(f.size/1024).toFixed(1)+' KB). Deploying…');$('deployProgress').innerHTML='<span class="spinner"></span>'+(L==='fa'?'ساخت ورکر + KV + D1…':'Creating Worker + KV + D1…');var payload={deploy_type:deployType,account_id:aid,worker_name:val('worker_name')||undefined,kv_namespace:val('kv_namespace')||undefined,d1_name:val('d1_name')||undefined};var j=await api('POST','/api/deploy',payload);showResult(j.result);}catch(e){gotoStep(3);msg('Error: '+e.message,'err');}}
+
+function showResult(r){gotoStep(5);window._panelUrl=r.panel_url||r.worker_url||'';var PW=(L==='fa'?'رمز':'Password'),PN=(L==='fa'?'پنل':'Panel'),WK=(L==='fa'?'ورکر':'Worker');var h='';h+='<strong>'+esc(r.worker_name)+'</strong> ('+(r.deploy_type||'worker')+')<br>';if(r.panel_url)h+='<br>'+PN+': <a href="'+esc(r.panel_url)+'" target="_blank">'+esc(r.panel_url)+'</a>';if(r.worker_url&&r.worker_url!==r.panel_url)h+='<br>'+WK+': <a href="'+esc(r.worker_url)+'" target="_blank">'+esc(r.worker_url)+'</a>';if(r.uuid)h+='<br>UUID: <code>'+esc(r.uuid)+'</code>';if(r.admin_pass)h+='<br>'+PW+': <code>'+esc(r.admin_pass)+'</code>';if(r.kv_namespace)h+='<br>KV: <code>'+esc(r.kv_namespace.title||'')+'</code>';if(r.d1_database)h+='<br>D1: <code>'+esc(r.d1_database.name||'')+'</code>';if(r.set_password){var SP=(L==='fa'?'پنل را باز کن و در اولین ورود رمز عبور دلخواه خودت را تنظیم کن.':'Open the panel and set your own password on first visit.');h+='<br><br>🔑 '+SP;}$('resultArea').innerHTML=h;}
+
+try{var th=localStorage.getItem('nova-theme');if(th){document.documentElement.setAttribute('data-theme',th);document.getElementById('theme').textContent=th==='light'?'☀':'☾';}var lg=localStorage.getItem('nova-lang');if(lg)setLang(lg);else if((navigator.language||'').toLowerCase().startsWith('fa'))setLang('fa');}catch(e){}
+refreshState();
+</script>
+</body>
+</html>
