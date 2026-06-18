@@ -2,7 +2,9 @@
   <img src="https://raw.githubusercontent.com/iiviirv/irnova-site/main/brand/nova-logo-gradient.svg" width="70" alt="Nova">
   <h1>Nova Wizard</h1>
   <p><b>Local OAuth deployer for Nova Proxy on Cloudflare Workers</b></p>
-  <p>یک دیپلوی‌ر محلی با OAuth برای نوا پروکسی روی Cloudflare Workers</p>
+  <p>
+    <a href="README.fa.md">🇮🇷 فارسی</a>
+  </p>
   <p>
     <a href="https://novaproxy.online/">Website</a> ·
     <a href="https://t.me/irnova_proxy">Telegram Channel</a> ·
@@ -18,15 +20,23 @@
 
 Nova Wizard is a **local** Windows tool that deploys the [Nova Proxy](https://github.com/IRNova/Nova-Proxy) worker to your Cloudflare account using **OAuth** — no API tokens, no API keys, no third-party servers. Everything runs on your own machine.
 
-**نوا ویزارد** یک ابزار محلی ویندوزی است که ورکر نوا پروکسی را با استفاده از OAuth روی حساب Cloudflare شما دیپلوی می‌کند — بدون نیاز به توکن API، بدون سرور شخص ثالث. همه چیز روی کامپیوتر خودتان اجرا می‌شود.
+---
+
+## Quick Install — One Click via Website
+
+The fastest way to deploy Nova Proxy is through our official website:
+
+[**🚀 Install from novaproxy.online**](https://novaproxy.online/install)
+
+No download, no setup — just click, authorize Cloudflare, and you're done. This method is faster than running the local tool.
+
+The local **Nova Wizard** (below) is an alternative for users who prefer running everything offline on their own machine.
 
 ---
 
-## Download / دانلود
+## Download
 
 [**⬇ Download NovaWizard.exe**](https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe) (8.4 MB) — Windows 64-bit, portable
-
-[**⬇ دانلود NovaWizard.exe**](https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe) (۸.۴ مگابایت) — ویندوز ۶۴ بیت، قابل حمل
 
 ---
 
@@ -43,9 +53,6 @@ Nova Wizard is a **local** Windows tool that deploys the [Nova Proxy](https://gi
 
 ## How to Use
 
-<details>
-<summary><b>English</b></summary>
-
 1. **Run** `NovaWizard.exe` — a terminal window opens with a local URL.
 2. **Open your browser** — it opens automatically at `http://127.0.0.1:8000/?token=...`
 3. **Click "Login with Cloudflare"** — Cloudflare opens in a new tab.
@@ -56,24 +63,6 @@ Nova Wizard is a **local** Windows tool that deploys the [Nova Proxy](https://gi
 8. **Done!** — open your panel, set your own admin password on first visit.
 
 > You can rename the worker, KV namespace, and D1 database **before** deploying. The names are random by default but fully editable.
-
-</details>
-
-<details>
-<summary><b>فارسی</b></summary>
-
-۱. **اجرا کنید** `NovaWizard.exe` را — یک پنجره ترمینال با لینک محلی باز می‌شود.
-۲. **مرورگر را باز کنید** — به‌طور خودکار در آدرس `http://127.0.0.1:8000/?token=...` باز می‌شود.
-۳. **روی "ورود با Cloudflare" کلیک کنید** — Cloudflare در یک تب جدید باز می‌شود.
-۴. **اجازه دهید** — درخواست دسترسی را تأیید کنید، سپس تب را ببندید.
-۵. **حساب خود را انتخاب کنید** — انتخاب کنید روی کدام حساب Cloudflare دیپلوی شود.
-۶. **نام منابع را تنظیم کنید** — نام ورکر، فضای KV و دیتابیس D1 از پیش پر شده‌اند. می‌توانید تغییرشان دهید.
-۷. **روی "الان دیپلوی کن" کلیک کنید** — ورکر از گیت‌هاب دانلود، روی Cloudflare آپلود، KV و D1 ساخته و متصل می‌شوند.
-۸. **تمام!** — پنل خود را باز کنید و در اولین بازدید رمز عبور خود را تنظیم کنید.
-
-> می‌توانید نام ورکر، فضای KV و دیتابیس D1 را **قبل از** دیپلوی تغییر دهید. نام‌ها به‌صورت تصادفی پر می‌شوند اما کاملاً قابل ویرایش هستند.
-
-</details>
 
 ---
 
@@ -92,22 +81,20 @@ Nova Wizard is a **local** Windows tool that deploys the [Nova Proxy](https://gi
 
 ---
 
-## Requirements / نیازمندی‌ها
+## Requirements
 
-- **Windows** 7 / 8 / 10 / 11 (64-bit) — از EXE آماده استفاده کن
-- **Linux** — Python 3.8+ و اجرای مستقیم (ببین پایین)
-- A Cloudflare account / حساب Cloudflare
-- Internet connection / اتصال به اینترنت
+- **Windows** 7 / 8 / 10 / 11 (64-bit)
+- **Linux** — Python 3.8+ (run directly, see below)
+- A Cloudflare account
+- Internet connection
 
 ---
 
-## Linux / لینوکس
+## Linux
 
 Nova Wizard runs natively on Linux — no EXE needed.
 
-نوا ویزارد روی لینوکس بدون نیاز به EXE اجرا می‌شود.
-
-### Quick start / اجرای سریع
+### Quick start
 
 ```bash
 # 1. Clone the repo
@@ -121,16 +108,14 @@ cd Nova-Wizard
 python3 nova_wizard.py
 ```
 
-### Requirements / پیش‌نیازها
+### Requirements
 
 - Python 3.8+ (built-in on most distros)
 - `static/index.html` in the same directory
 
-### Note / نکته
+### Note
 
 The `static/` folder is **not** included in the public GitHub repo. You need to copy it from your Windows build machine or keep it locally.
-
-پوشه `static/` در مخزن عمومی گیت‌هاب **نیست**. باید از روی سیستم ویندوزی که باهاش ساختی کپی کنی یا محلی نگه‌ش داری.
 
 ---
 
@@ -165,13 +150,11 @@ pyinstaller --onefile --name NovaWizard --add-data "static;static" --icon app.ic
 
 ---
 
-## Support / حمایت
+## Support
 
 If you like this project, support us with a donation.
 
-اگه از پروژه خوشت اومده، با دونیت از ما حمایت کن.
-
-**TON :**
+**TON:**
 
 ```
 UQD51lGC35rP_SbVYgbFA7CEEii4GVMFgqj4N8fiGi6m425w
