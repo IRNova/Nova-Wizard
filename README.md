@@ -137,8 +137,6 @@ If you like this project, support us with a donation.
 
 اگه از پروژه خوشت اومده، با دونیت از ما حمایت کن.
 
-🔗 **Donation link / لینک دونیت:** [https://daramet.com/NovaPr](https://daramet.com/NovaPr)
-
 **TON :**
 
 ```
