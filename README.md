@@ -22,6 +22,14 @@ Nova Wizard is a **local** Windows tool that deploys the [Nova Proxy](https://gi
 
 ---
 
+## Download / دانلود
+
+[**⬇ Download NovaWizard.exe**](https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe) (8.4 MB) — Windows 64-bit, portable
+
+[**⬇ دانلود NovaWizard.exe**](https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe) (۸.۴ مگابایت) — ویندوز ۶۴ بیت، قابل حمل
+
+---
+
 ## Features
 
 - **OAuth login** — Cloudflare authorization in one click, no token to create or manage
