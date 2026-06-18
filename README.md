@@ -6,11 +6,16 @@
     <a href="README.fa.md">🇮🇷 فارسی</a>
   </p>
   <p>
-    <a href="https://novaproxy.online/">Website</a> ·
-    <a href="https://t.me/irnova_proxy">Telegram Channel</a> ·
-    <a href="https://t.me/irnovaproxy_group">Telegram Group</a> ·
-    <a href="https://www.youtube.com/@novaproxyir">YouTube</a> ·
-    <a href="https://x.com/irNovaProxy">X / Twitter</a>
+<div align="center">
+
+[![Website](https://img.shields.io/badge/🌐%20Website-novaproxy.online-0ea5e9?style=for-the-badge)](https://novaproxy.online/)
+[![Telegram Channel](https://img.shields.io/badge/✈️%20Telegram%20Channel-@irnova__proxy-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova_proxy)
+[![Telegram Group](https://img.shields.io/badge/👥%20Telegram%20Group-@irnovaproxy__group-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnovaproxy_group)
+[![YouTube](https://img.shields.io/badge/▶️%20YouTube-@novaproxyir-ff0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/@novaproxyir)
+[![X (Twitter)](https://img.shields.io/badge/𝕏%20X-@irNovaProxy-000000?style=for-the-badge&logo=x)](https://x.com/irNovaProxy)
+</div>
+
+---
   </p>
   <p>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple?style=for-the-badge" alt="License"></a>
