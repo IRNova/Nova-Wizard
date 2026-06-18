@@ -6,7 +6,6 @@
     <a href="README.md">🇬🇧 English</a>
   </p>
   <p>
-## 🌐 Links
 
 <div align="center">
 
