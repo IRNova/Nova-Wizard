@@ -1,0 +1,19 @@
+# Build artifacts
+build/
+dist/
+*.spec
+
+# Icon source
+*.ico
+*.png
+
+# Runtime files
+worker.js
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS junk
+Thumbs.db
+.DS_Store
