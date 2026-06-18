@@ -131,6 +131,22 @@ pyinstaller --onefile --name NovaWizard --add-data "static;static" --icon app.ic
 
 ---
 
+## Support / حمایت
+
+If you like this project, support us with a donation.
+
+اگه از پروژه خوشت اومده، با دونیت از ما حمایت کن.
+
+🔗 **Donation link / لینک دونیت:** [https://daramet.com/NovaPr](https://daramet.com/NovaPr)
+
+**TON :**
+
+```
+UQD51lGC35rP_SbVYgbFA7CEEii4GVMFgqj4N8fiGi6m425w
+```
+
+---
+
 ## License
 
 MIT
