@@ -3,7 +3,7 @@
 Nova OAuth Wizard — OAuth-only Cloudflare Worker deployer.
 """
 from __future__ import annotations
-
+import sys
 import base64, hashlib, json, mimetypes, os, secrets, ssl, threading, traceback
 import uuid as uuid_mod
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
