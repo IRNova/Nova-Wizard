@@ -178,3 +178,11 @@ UQD51lGC35rP_SbVYgbFA7CEEii4GVMFgqj4N8fiGi6m425w
 ## لایسنس
 
 MIT
+
+---
+
+<div align="center">
+
+ساخته شده توسط <a href="https://github.com/iiviirv"><b>@iiviirv</b></a> برای گروه نوا پروکسی.
+
+</div>
