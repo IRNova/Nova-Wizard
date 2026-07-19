@@ -438,6 +438,27 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type):
         "set_password": True,
         "kv_namespace": kv, "d1_database": d1_db, "deploy_type": deploy_type}
 
+def report_install(worker_url):
+    """Tell novaproxy.online's counter about a real deploy, in the background.
+
+    The id is a hash of the panel host, matching the web installer and the
+    Telegram bot, so one panel is tallied once across every deploy channel. The
+    server only ever sees the opaque hash, never the worker URL. Runs in a daemon
+    thread with a short timeout so it never delays or blocks the deploy result."""
+    host = (urlparse(worker_url).hostname or "").strip()
+    if not host:
+        return
+    def _send():
+        try:
+            wid = "w_" + hashlib.sha256(("nova-panel:" + host).encode()).hexdigest()[:32]
+            data = json.dumps({"type": "install", "id": wid}).encode()
+            req = urlrequest.Request("https://novaproxy.online/api/stats", data=data,
+                headers={"Content-Type": "application/json"}, method="POST")
+            urlrequest.urlopen(req, timeout=6).read()
+        except Exception:
+            pass
+    threading.Thread(target=_send, daemon=True).start()
+
 def cleanup(cf, aid, worker_name, kv_id, kv_title, d1_id, deploy_type):
     r = {"worker": False, "kv": False, "d1": False, "notes": []}
     if worker_name:
@@ -592,6 +613,7 @@ class Handler(BaseHTTPRequestHandler):
                     v = (body.get(k.lower()) or "").strip()
                     if v: extra[k] = v
                 result = deploy(cf, aid, wn, kv, d1, extra, dt)
+                report_install(result.get("worker_url"))
                 result["id"] = secrets.token_hex(8)
                 result["account_id"] = aid
                 result["status"] = "active"
