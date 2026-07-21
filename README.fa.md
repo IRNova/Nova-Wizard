@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/iiviirv/irnova-site/main/brand/nova-logo-gradient.svg" width="70" alt="نوا">
+  <img src="https://raw.githubusercontent.com/iiviirv/irnova-site/main/brand/nova-logo-badge-round.png" width="70" alt="نوا">
   <h1>نوا ویزارد</h1>
   <p><b>دیپلوی‌ر محلی با OAuth برای نوا پروکسی روی Cloudflare Workers</b></p>
   <p>
