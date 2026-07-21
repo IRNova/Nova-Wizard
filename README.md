@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/iiviirv/irnova-site/main/brand/nova-logo-gradient.svg" width="70" alt="Nova">
+  <img src="https://raw.githubusercontent.com/iiviirv/irnova-site/main/brand/nova-logo-badge-round.png" width="70" alt="Nova">
   <h1>Nova Wizard</h1>
   <p><b>Local OAuth deployer for Nova Proxy on Cloudflare Workers</b></p>
   <p>
