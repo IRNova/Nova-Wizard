@@ -20,7 +20,7 @@
   </p>
   <p>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple?style=for-the-badge" alt="لایسنس"></a>
-    <a href="https://github.com/IRNova/Nova-Proxy"><img src="https://img.shields.io/badge/version-3.6.3-blueviolet?style=for-the-badge" alt="نسخه"></a>
+    <a href="https://github.com/IRNova/Nova-Proxy"><img src="https://img.shields.io/badge/version-4.1.4-blueviolet?style=for-the-badge" alt="نسخه"></a>
     <a href="https://github.com/IRNova/Nova-Proxy"><img src="https://img.shields.io/github/stars/IRNova/Nova-Proxy?style=for-the-badge&color=0ea5e9" alt="ستاره‌ها"></a>
   </p>
 </div>
