@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="128" viewBox="0 0 1200 128" role="img" aria-labelledby="t d">
+  <title id="t">Requirements</title>
+  <desc id="d">Section banner: Requirements. Windows or Linux, a Cloudflare account, internet.</desc>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/><stop offset="0.5" stop-color="#818cf8"/><stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="gradH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/><stop offset="0.55" stop-color="#818cf8"/><stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+    <radialGradient id="pulse" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.45"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="128" rx="20" fill="#0a0c14"/>
+  <rect x="1" y="1" width="1198" height="126" rx="19" fill="none" stroke="#ffffff" stroke-opacity="0.07"/>
+
+  <!-- recurring deploy motif: authorize track into a live Worker node -->
+  <circle cx="1098" cy="64" r="66" fill="url(#pulse)"/>
+  <path d="M780 64 H948" fill="none" stroke="#ffffff" stroke-opacity="0.09" stroke-width="2" stroke-dasharray="2 11"/>
+  <path d="M956 64 H1058" fill="none" stroke="url(#gradH)" stroke-width="2.5"/>
+  <circle cx="1098" cy="64" r="17" fill="#0d1020" stroke="url(#grad)" stroke-width="2.5"/>
+  <text x="1098" y="70.5" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="16" font-weight="800" fill="url(#grad)">N</text>
+  <circle cx="1111" cy="51" r="5.2" fill="#0d1020" stroke="#34d399" stroke-width="1.6"/>
+  <circle cx="1111" cy="51" r="2.3" fill="#34d399"/>
+
+  <!-- node chip + glyph -->
+  <rect x="40" y="30" width="68" height="68" rx="16" fill="url(#grad)"/>
+  <g transform="translate(40 30)">
+      <rect x="16" y="16" width="36" height="36" rx="9" fill="none" stroke="#05060a" stroke-width="3.4"/>
+      <path d="M24 34 L31 41 L45 25" fill="none" stroke="#05060a" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- title + descriptor -->
+  <text x="132" y="58" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="42" font-weight="700" letter-spacing="-0.5" fill="#f0f2f7">Requirements</text>
+  <circle cx="138" cy="88" r="4" fill="#818cf8"/>
+  <text x="152" y="94" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="20" font-weight="500" fill="#9aa4b8">Windows or Linux, a Cloudflare account, internet</text>
+</svg>

@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="410" viewBox="0 0 1200 410" role="img" aria-labelledby="heroTitle heroDesc" direction="rtl">
+  <title id="heroTitle">نوا ویزارد، دیپلوی‌ر محلی با OAuth برای نوا پروکسی روی Cloudflare Workers</title>
+  <desc id="heroDesc">پنل تیره. سمت راست، نام نوا ویزارد با گرادیان فیروزه‌ای تا بنفش، خط ارزش، و سه نشان: یک کلیک، OAuth محلی بدون توکن، ویندوز و لینوکس. سمت چپ، روند دیپلوی: سیستم شما با OAuth به Cloudflare اجازه می‌دهد و یک ورکر زنده با منابع KV و D1 روشن می‌شود.</desc>
+
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/><stop offset="0.5" stop-color="#818cf8"/><stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="gradH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/><stop offset="0.55" stop-color="#818cf8"/><stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+    <radialGradient id="glowCyan" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.20"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowViolet" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#a855f7" stop-opacity="0.20"/><stop offset="1" stop-color="#a855f7" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nodeGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0.55"/><stop offset="1" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="410" rx="26" fill="#05060a"/>
+  <rect x="1" y="1" width="1198" height="408" rx="25" fill="none" stroke="#ffffff" stroke-opacity="0.06"/>
+  <circle cx="190" cy="70" r="300" fill="url(#glowCyan)"/>
+  <circle cx="380" cy="420" r="300" fill="url(#glowViolet)"/>
+
+  <!-- ===== RIGHT: title block (RTL) ===== -->
+  <g font-family="Vazirmatn,Tahoma,'Segoe UI',Arial,sans-serif">
+    <!-- logo lockup: N badge on the far right -->
+    <rect x="1082" y="66" width="46" height="46" rx="12" fill="url(#grad)"/>
+    <text x="1105" y="100" text-anchor="middle" direction="ltr" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="28" font-weight="800" fill="#05060a">N</text>
+    <text x="1066" y="87" text-anchor="start" font-size="16" letter-spacing="1" fill="#22d3ee">دیپلوی‌ر محلی با ⁦OAuth⁩</text>
+    <text x="1066" y="107" text-anchor="start" font-size="14" fill="#6b7688">برای نوا پروکسی روی ⁦Cloudflare Workers⁩</text>
+
+    <!-- wordmark -->
+    <text x="1128" y="196" text-anchor="start" font-size="76" font-weight="800" fill="url(#gradH)">نوا ویزارد</text>
+
+    <!-- value lines -->
+    <text x="1126" y="240" text-anchor="start" font-size="22" font-weight="500" fill="#c5cbd8">نوا پروکسی را روی حساب ⁦Cloudflare⁩ خودتان دیپلوی کنید.</text>
+    <text x="1126" y="272" text-anchor="start" font-size="22" font-weight="500" fill="#c5cbd8">یک کلیک، ⁦OAuth⁩ محلی، بدون داشبورد، بدون ⁦CLI⁩.</text>
+
+    <!-- proof chips (right to left) -->
+    <g font-size="18" font-weight="600">
+      <g>
+        <rect x="1006" y="300" width="120" height="40" rx="20" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.12"/>
+        <circle cx="1112" cy="320" r="5" fill="#22d3ee"/>
+        <text x="1050" y="326" text-anchor="middle" fill="#e6e9f0">یک کلیک</text>
+      </g>
+      <g>
+        <rect x="740" y="300" width="248" height="40" rx="20" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.12"/>
+        <circle cx="974" cy="320" r="5" fill="#818cf8"/>
+        <text x="852" y="326" text-anchor="middle" fill="#e6e9f0">⁦OAuth⁩ محلی، بدون توکن</text>
+      </g>
+      <g>
+        <rect x="548" y="300" width="176" height="40" rx="20" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.12"/>
+        <circle cx="710" cy="320" r="5" fill="#a855f7"/>
+        <text x="626" y="326" text-anchor="middle" fill="#e6e9f0">ویندوز + لینوکس</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===== LEFT: deploy flow (mirrored) ===== -->
+  <g transform="translate(72 0)" font-family="Vazirmatn,Tahoma,'Segoe UI',Arial,sans-serif">
+    <rect x="0" y="52" width="404" height="306" rx="20" fill="#0a0c14" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="380" y="86" text-anchor="start" font-size="14" fill="#6b7688">روند دیپلوی</text>
+
+    <!-- connector: machine(right) -> worker(left) -->
+    <path d="M308 168 C 244 168 228 205 172 205" fill="none" stroke="url(#gradH)" stroke-width="2.5"/>
+    <circle cx="240" cy="185" r="4.5" fill="#818cf8"/>
+    <g transform="translate(224 150)">
+      <rect x="0" y="0" width="30" height="16" rx="8" fill="#0a0c14" stroke="#22d3ee" stroke-width="1.5"/>
+      <circle cx="8" cy="8" r="3.4" fill="none" stroke="#22d3ee" stroke-width="1.5"/>
+      <path d="M12 8 H24 M20 8 V13 M24 8 V13" stroke="#22d3ee" stroke-width="1.5" fill="none"/>
+      <text x="15" y="-6" text-anchor="middle" font-size="12" font-weight="600" fill="#9aa4b8">اجازه</text>
+    </g>
+
+    <!-- Node: your machine (right) -->
+    <g transform="translate(308 128)">
+      <rect x="0" y="0" width="72" height="52" rx="9" fill="#11141d" stroke="#ffffff" stroke-opacity="0.14"/>
+      <rect x="8" y="8" width="56" height="30" rx="4" fill="#0a0c14" stroke="#ffffff" stroke-opacity="0.10"/>
+      <circle cx="14" cy="14" r="2" fill="#f87171"/><circle cx="21" cy="14" r="2" fill="#f59e0b"/><circle cx="28" cy="14" r="2" fill="#34d399"/>
+      <path d="M28 44 H44" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2"/>
+      <text x="36" y="72" text-anchor="middle" font-size="16" font-weight="600" fill="#c5cbd8">سیستم شما</text>
+    </g>
+
+    <!-- Node: Cloudflare Worker (lit, left) -->
+    <g transform="translate(24 130)">
+      <circle cx="75" cy="75" r="86" fill="url(#nodeGlow)"/>
+      <rect x="27" y="27" width="96" height="96" rx="22" fill="#0d1020" stroke="url(#grad)" stroke-width="2.5"/>
+      <rect x="27" y="27" width="96" height="96" rx="22" fill="none" stroke="#818cf8" stroke-opacity="0.35" stroke-width="8"/>
+      <text x="75" y="88" text-anchor="middle" direction="ltr" font-size="46" font-weight="800" fill="url(#grad)">N</text>
+      <circle cx="38" cy="40" r="8" fill="#0d1020" stroke="#34d399" stroke-width="2"/>
+      <circle cx="38" cy="40" r="3.5" fill="#34d399"/>
+      <text x="75" y="150" text-anchor="middle" font-size="17" font-weight="700" fill="#e6e9f0">ورکر زنده</text>
+    </g>
+
+    <!-- bound resources KV + D1 -->
+    <g transform="translate(24 300)">
+      <path d="M75 0 V-14" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2"/>
+      <path d="M42 8 H108 M42 8 V0 M108 8 V0" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2" fill="none"/>
+      <g transform="translate(20 8)">
+        <rect x="0" y="0" width="44" height="30" rx="8" fill="#11141d" stroke="#22d3ee" stroke-opacity="0.4"/>
+        <text x="22" y="20" text-anchor="middle" direction="ltr" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="15" font-weight="700" fill="#22d3ee">KV</text>
+      </g>
+      <g transform="translate(86 8)">
+        <rect x="0" y="0" width="44" height="30" rx="8" fill="#11141d" stroke="#a855f7" stroke-opacity="0.4"/>
+        <text x="22" y="20" text-anchor="middle" direction="ltr" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="15" font-weight="700" fill="#c89bf5">D1</text>
+      </g>
+    </g>
+  </g>
+</svg>
