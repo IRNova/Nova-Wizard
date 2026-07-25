@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/iiviirv/irnova-site/main/brand/nova-logo-badge-round.png" width="70" alt="Nova">
-  <h1>Nova Wizard</h1>
-  <p><b>Local OAuth deployer for Nova Proxy on Cloudflare Workers</b></p>
+
+  <img src="./assets/readme/hero.svg" width="100%" alt="Nova Wizard, a local OAuth deployer for Nova Proxy on Cloudflare Workers. One click, local OAuth with no tokens, Windows and Linux.">
+
   <p>
     <a href="README.fa.md">🇮🇷 فارسی</a>
   </p>
@@ -26,51 +26,61 @@
 
 ---
 
-## What is Nova Wizard?
+<a id="what-is-nova-wizard"></a>
 
-Nova Wizard is a **local** Windows tool that deploys the [Nova Proxy](https://github.com/IRNova/Nova-Proxy) worker to your Cloudflare account using **OAuth** — no API tokens, no API keys, no third-party servers. Everything runs on your own machine.
+<img src="./assets/readme/section-what.svg" width="100%" alt="What is Nova Wizard: deploys the Nova Proxy worker to your own Cloudflare account.">
+
+Nova Wizard is a **local** Windows tool that deploys the [Nova Proxy](https://github.com/IRNova/Nova-Proxy) worker to your Cloudflare account using **OAuth**, no API tokens, no API keys, no third-party servers. Everything runs on your own machine.
 
 ---
 
-## Quick Install — One Click via Website
+<a id="quick-install--one-click-via-website"></a>
+
+<img src="./assets/readme/section-install.svg" width="100%" alt="Quick Install: one click on the website, authorize Cloudflare, done.">
 
 The fastest way to deploy Nova Proxy is through our official website:
 
 [**🚀 Install from novaproxy.online**](https://novaproxy.online/install)
 
-No download, no setup — just click, authorize Cloudflare, and you're done. This method is faster than running the local tool.
+No download, no setup, just click, authorize Cloudflare, and you're done. This method is faster than running the local tool.
 
 The local **Nova Wizard** (below) is an alternative for users who prefer running everything offline on their own machine.
 
 ---
 
-## Download
+<a id="download"></a>
 
-[**⬇ Download NovaWizard.exe**](https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe) (8.4 MB) — Windows 64-bit, portable
+<img src="./assets/readme/section-download.svg" width="100%" alt="Download: portable EXE for Windows, run with Python on Linux.">
 
----
-
-## Features
-
-- **OAuth login** — Cloudflare authorization in one click, no token to create or manage
-- **Auto-setup** — Worker, KV namespace, and D1 database are created automatically
-- **Custom names** — You can rename the worker, KV, and D1 before deploying
-- **Private & local** — Your Cloudflare credentials never leave your machine
-- **Bilingual** — English and Persian (فارسی) UI
-- **Single EXE** — No Python or dependencies needed to run
+[**⬇ Download NovaWizard.exe**](https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe) (8.4 MB), Windows 64-bit, portable
 
 ---
 
-## How to Use
+<a id="features"></a>
 
-1. **Run** `NovaWizard.exe` — a terminal window opens with a local URL.
-2. **Open your browser** — it opens automatically at `http://127.0.0.1:8000/?token=...`
-3. **Click "Login with Cloudflare"** — Cloudflare opens in a new tab.
-4. **Authorize on Cloudflare** — approve the access request, then close the tab.
-5. **Choose your account** — select which Cloudflare account to deploy on.
-6. **Name your resources** — worker name, KV namespace, D1 database are pre-filled. You can change them.
-7. **Click "Deploy now"** — the worker is downloaded from GitHub, uploaded to Cloudflare, KV + D1 are created and bound.
-8. **Done!** — open your panel, set your own admin password on first visit.
+<img src="./assets/readme/section-features.svg" width="100%" alt="Features: OAuth login, automatic Worker, KV and D1 setup, private and local.">
+
+- **OAuth login:** Cloudflare authorization in one click, no token to create or manage
+- **Auto-setup:** Worker, KV namespace, and D1 database are created automatically
+- **Custom names:** You can rename the worker, KV, and D1 before deploying
+- **Private & local:** Your Cloudflare credentials never leave your machine
+- **Bilingual:** English and Persian (فارسی) UI
+- **Single EXE:** No Python or dependencies needed to run
+
+---
+
+<a id="how-to-use"></a>
+
+<img src="./assets/readme/section-howto.svg" width="100%" alt="How to Use: from login to a live panel in eight short steps.">
+
+1. **Run** `NovaWizard.exe`, a terminal window opens with a local URL.
+2. **Open your browser**, it opens automatically at `http://127.0.0.1:8000/?token=...`
+3. **Click "Login with Cloudflare"**, Cloudflare opens in a new tab.
+4. **Authorize on Cloudflare**, approve the access request, then close the tab.
+5. **Choose your account**, select which Cloudflare account to deploy on.
+6. **Name your resources**, worker name, KV namespace, D1 database are pre-filled. You can change them.
+7. **Click "Deploy now"**, the worker is downloaded from GitHub, uploaded to Cloudflare, KV + D1 are created and bound.
+8. **Done!** Open your panel, set your own admin password on first visit.
 
 > You can rename the worker, KV namespace, and D1 database **before** deploying. The names are random by default but fully editable.
 
@@ -86,15 +96,17 @@ The local **Nova Wizard** (below) is an alternative for users who prefer running
 
 | Platform | Status | Details |
 |----------|--------|---------|
-| **Android** | 🚀 Coming soon | Merged with <a href="https://github.com/IRNova/Nova-Radar">Nova Radar</a> Android — a single app for deployment + proxy |
+| **Android** | 🚀 Coming soon | Merged with <a href="https://github.com/IRNova/Nova-Radar">Nova Radar</a> Android, a single app for deployment + proxy |
 | **iOS** | 🔧 In development | Standalone iOS app, currently under development |
 
 ---
 
-## Requirements
+<a id="requirements"></a>
+
+<img src="./assets/readme/section-reqs.svg" width="100%" alt="Requirements: Windows or Linux, a Cloudflare account, an internet connection.">
 
 - **Windows** 7 / 8 / 10 / 11 (64-bit)
-- **Linux** — Python 3.8+ (run directly, see below)
+- **Linux:** Python 3.8+ (run directly, see below)
 - A Cloudflare account
 - Internet connection
 
@@ -102,7 +114,7 @@ The local **Nova Wizard** (below) is an alternative for users who prefer running
 
 ## Linux
 
-Nova Wizard runs natively on Linux — no EXE needed.
+Nova Wizard runs natively on Linux, no EXE needed.
 
 ### Quick start
 
@@ -129,7 +141,9 @@ The `static/` folder is **not** included in the public GitHub repo. You need to 
 
 ---
 
-## Build from Source
+<a id="build-from-source"></a>
+
+<img src="./assets/readme/section-build.svg" width="100%" alt="Build from Source: clone the worker, install PyInstaller, produce the EXE yourself.">
 
 ```bash
 # 1. Clone the Nova-Proxy worker
