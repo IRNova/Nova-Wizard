@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#070809" />
+<title>دستیار نوا</title>
+<meta name="description" content="دستیار نوا پنل نوا پروکسی را روی حساب Cloudflare خودتان، از روی کامپیوتر خودتان نصب می‌کند. مسیر کسانی که سراغ ربات تلگرام نمی‌روند." />
+<link rel="icon" href="../img/mark.svg" type="image/svg+xml" />
+<link rel="alternate" hreflang="en" href="../" />
+<link rel="alternate" hreflang="fa" href="./" />
+<link rel="stylesheet" href="../style.css" />
+<script>
+/* تم را پیش از اولین رنگ‌آمیزی صفحه تعیین می‌کند: انتخاب ذخیره‌شده، وگرنه تم سیستم. */
+(function(){try{var t=localStorage.getItem('nova-theme');
+if(!t)t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';
+document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
+</head>
+<body
+  data-copied="کپی شد"
+  data-copy-failed="کپی نشد. متن را دستی انتخاب کنید."
+  data-theme-to-light="رفتن به تم روشن"
+  data-theme-to-dark="رفتن به تم تیره">
+
+<a class="skip" href="#main">پرش به محتوا</a>
+
+<div class="bar">
+  <a class="logo" href="./">
+    <svg viewBox="0 0 1254 1254" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="novaMark" x1="128.06" y1="1122.76" x2="1206.85" y2="43.97" gradientUnits="userSpaceOnUse"><stop offset=".04" stop-color="#9d4efb"/><stop offset="1" stop-color="#02cdf3"/></linearGradient></defs>
+      <path fill="url(#novaMark)" d="M1185.57,149.23c0-43.84-27.55-82.6-66.19-100.7-40.83-19.13-87.98-16.85-126.82,6.19-33.3,19.76-56.22,55.99-56.25,95.68l-.38,653.25.09,39.98c.03,13.51-.33,26.37-3.82,39.13-8.12,29.65-30.52,53.04-56.69,62.39-32.53,11.62-65.87,5.5-91.07-15.75-20.65-17.42-33.28-42.64-33.32-70.11l-.35-245.85.07-231.05c.04-148.83-97.26-281.46-240.38-321.81-67.49-19.02-138.62-19.66-204.99,2.42l-13.66,4.55C159.84,114.72,68.42,239.99,68.41,381.43l-.06,712.76c0,68.93,56.48,123.39,124.03,124.15,65.31.73,125.56-52.18,125.64-120.57l.88-712.63c.07-54.62,49.94-96.23,103.56-88.53,43.56,6.25,78.96,43.23,79.08,88.34l1.24,493.92c.16,62.52,24.72,123.29,59.49,174.21,43.7,63.99,108.48,111.28,182.25,133.98,91.72,28.23,190.9,16.68,273.4-31.79,36.89-21.68,68.83-50.13,94.95-83.49l16.54-23.16c31.76-44.47,56.26-119.27,56.25-174.93l-.09-724.43Z"/>
+    </svg>
+    <span>دستیار نوا</span>
+  </a>
+  <div class="controls">
+    <a class="pill" href="../" lang="en" hreflang="en">⁦English⁩</a>
+    <button type="button" class="theme" id="theme" aria-label="تغییر تم">☾</button>
+  </div>
+</div>
+
+<main class="wrap" id="main">
+
+  <div class="hero">
+    <span class="eyebrow">نصب‌کنندهٔ محلی، بدون توکن</span>
+    <h1>یک پنل <span class="grad">نوا</span>، بدون تلگرام</h1>
+    <p>دستیار نوا روی کامپیوتر خودتان اجرا می‌شود. یک صفحه در مرورگرتان باز می‌کند، شما یک‌بار وارد حساب ⁦Cloudflare⁩ می‌شوید، و پنل نوا پروکسی روی حساب ⁦Cloudflare⁩ خودتان ساخته می‌شود. شما توکن ⁦API⁩ نمی‌سازید و هیچ‌چیز از سرورهای ما رد نمی‌شود.</p>
+    <div class="actions">
+      <a class="btn" href="#run">روش اجرا</a>
+      <a class="btn btn-ghost" href="https://github.com/IRNova/Nova-Wizard" target="_blank" rel="noopener noreferrer">مخزن پروژه</a>
+    </div>
+  </div>
+
+  <section id="routes">
+    <h2>اول مسیرتان را انتخاب کنید</h2>
+    <p class="lead">دو ابزار این کار را برایتان انجام می‌دهند. یکی از آن دو خیلی کم‌دردسرتر است و این صفحه آن یکی نیست.</p>
+    <div class="fork">
+      <div class="route">
+        <h3>ربات تلگرام</h3>
+        <p>یک گفتگو با یک ربات. نه چیزی نصب می‌کنید و نه ترمینالی باز می‌کنید. بیشتر آدم‌ها باید همین را انتخاب کنند.</p>
+        <a class="go" href="https://t.me/NovaServerInstaller_Bot" target="_blank" rel="noopener noreferrer">باز کردن ربات در تلگرام</a>
+      </div>
+      <div class="route here">
+        <h3>دستیار نوا</h3>
+        <p>برای کسانی که سراغ تلگرام نمی‌روند. یک برنامهٔ کوچک را روی دستگاه خودتان اجرا می‌کنید و ورود به ⁦Cloudflare⁩ را خودتان انجام می‌دهید.</p>
+        <span class="go">همین صفحه دربارهٔ این مسیر است.</span>
+      </div>
+    </div>
+    <div class="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8.2v4.6"/><path d="M12 16h.01"/></svg>
+      <div><b>این مسیر سخت‌تر است.</b> یک پنجرهٔ ترمینال می‌خواهد، و روی ⁦macOS⁩ و ⁦Linux⁩ به ⁦Python⁩ هم نیاز دارد. اگر این‌ها برایتان دردسر است، ربات همان کار را با زحمت کمتر انجام می‌دهد.</div>
+    </div>
+  </section>
+
+  <section id="steps">
+    <h2>وقتی اجرایش می‌کنید چه اتفاقی می‌افتد</h2>
+    <p class="lead">خود دستیار روی صفحه شش مرحله می‌شمارد. پشت آن شش مرحله این کارها انجام می‌شود.</p>
+    <ol class="rail">
+      <li>
+        <span class="num" aria-hidden="true">۱</span>
+        <div class="body">
+          <h3>اجرایش می‌کنید</h3>
+          <p>یک دستور در ترمینال، یا روی ⁦Windows⁩ یک دابل‌کلیک. پنجرهٔ ترمینال تا آخر کار باز می‌ماند و بستن آن دستیار را متوقف می‌کند.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num" aria-hidden="true">۲</span>
+        <div class="body">
+          <h3>یک صفحهٔ محلی باز می‌شود</h3>
+          <p>دستیار یک صفحه روی <code>⁦127.0.0.1⁩</code> بالا می‌آورد و مرورگر را روی همان باز می‌کند. آن آدرس یک توکن دارد که هر بار تازه است و فقط روی دستگاه خودتان کار می‌کند.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num" aria-hidden="true">۳</span>
+        <div class="body">
+          <h3>وارد ⁦Cloudflare⁩ می‌شوید</h3>
+          <p>⁦Cloudflare⁩ در یک تب دوم باز می‌شود و اجازهٔ دسترسی می‌خواهد. اجازه بدهید، آن تب را ببندید و به صفحهٔ دستیار برگردید.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num" aria-hidden="true">۴</span>
+        <div class="body">
+          <h3>اسم‌ها را انتخاب می‌کنید</h3>
+          <p>انتخاب می‌کنید روی کدام حساب ⁦Cloudflare⁩ نصب شود. دستیار برای ⁦Worker⁩، فضای ⁦KV⁩ و دیتابیس ⁦D1⁩ اسم‌های تصادفی می‌گذارد. عوضشان کنید یا همان‌طور بگذارید.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num" aria-hidden="true">۵</span>
+        <div class="body">
+          <h3>نصب می‌کند</h3>
+          <p>دستیار نسخهٔ محافظت‌شدهٔ نوا پروکسی را دانلود می‌کند، روی حساب شما آپلود می‌کند، فضای ⁦KV⁩ و دیتابیس ⁦D1⁩ را می‌سازد و به ⁦Worker⁩ وصل می‌کند، و در آخر آدرس پنل را نشان می‌دهد.</p>
+        </div>
+      </li>
+    </ol>
+    <figure>
+      <img src="../img/wizard-welcome-fa.png" width="1520" height="1240" loading="lazy" decoding="async"
+           alt="صفحهٔ دستیار نوا در مرورگر، به فارسی و راست‌چین. کارت «خوش آمدی» با دکمهٔ «شروع» و یادداشتی که می‌گوید همه‌چیز روی همین کامپیوتر اجرا می‌شود." />
+      <figcaption>اولین صفحه، گرفته‌شده از دستیار در حال اجرا روی یک لپ‌تاپ. پیش‌فرضش تیره است و دکمه‌های بالای صفحه تم و زبان را عوض می‌کنند.</figcaption>
+    </figure>
+  </section>
+
+  <section id="before">
+    <h2>پیش از شروع</h2>
+    <dl class="reqs">
+      <div>
+        <dt>یک حساب ⁦Cloudflare⁩</dt>
+        <dd>حساب رایگان کافی است. در مرحلهٔ ۳ وارد می‌شوید. دستیار هیچ‌وقت از شما نمی‌خواهد توکن یا کلید ⁦API⁩ بسازید.</dd>
+      </div>
+      <div>
+        <dt>⁦Python 3.8⁩ یا جدیدتر</dt>
+        <dd>روی ⁦macOS⁩ و بیشتر توزیع‌های ⁦Linux⁩ از قبل نصب است. با <code>⁦python3 --version⁩</code> چکش کنید. روی ⁦Windows⁩ می‌توانید ⁦Python⁩ را رد کنید و از برنامهٔ آمادهٔ پایین استفاده کنید.</dd>
+      </div>
+      <div>
+        <dt>یک ترمینال</dt>
+        <dd>یک پنجره و سه دستور. اگر خواندن همین جمله معذبتان کرد، ربات تلگرام ابزار بهتری برای شماست.</dd>
+      </div>
+      <div>
+        <dt>اینترنتی که به ⁦Cloudflare⁩ برسد</dt>
+        <dd>دستیار با ⁦Cloudflare⁩ و ⁦GitHub⁩ کار دارد. داخل ایران صفحهٔ ورود ⁦Cloudflare⁩ معمولاً باز نمی‌شود، پس قبل از شروع همان ⁦VPN⁩ همیشگی‌تان را روشن کنید.</dd>
+      </div>
+    </dl>
+    <div class="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
+      <div>
+        <p><b>چه چیزی از دستگاهتان بیرون می‌رود.</b> ورود ⁦Cloudflare⁩ و توکن دسترسی‌ای که می‌سازد روی کامپیوتر خودتان می‌ماند، و دستیار وقتی بسته می‌شود همان توکن را به ⁦Cloudflare⁩ پس می‌دهد.</p>
+        <p>یک چیز بیرون می‌رود. بعد از یک نصب موفق، دستیار یک خط به شمارندهٔ ⁦novaproxy.online⁩ می‌فرستد: یک هش از آدرس پنل، تا یک پنل بین ربات و وب‌سایت و این ابزار فقط یک‌بار شمرده شود. خود آدرس پنل فرستاده نمی‌شود.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="run">
+    <h2>اجرا</h2>
+    <p class="lead">این‌ها دقیقاً همان دستورهای مخزن هستند، بدون تغییر.</p>
+
+    <h3>⁦macOS⁩، ⁦Linux⁩، یا ⁦Windows⁩ با ⁦Python⁩</h3>
+    <div class="code">
+      <pre id="cmd-run" dir="ltr"><code>git clone https://github.com/IRNova/Nova-Wizard.git
+cd Nova-Wizard
+python3 nova_wizard.py</code></pre>
+      <button type="button" class="copy" data-for="cmd-run" aria-label="کپی این دستورها">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M6 15H5.5A1.5 1.5 0 0 1 4 13.5v-9A1.5 1.5 0 0 1 5.5 3h9A1.5 1.5 0 0 1 16 4.5V5"/></svg>
+      </button>
+    </div>
+
+    <p class="cap">بعد ترمینال چیزی شبیه این چاپ می‌کند:</p>
+    <pre class="term" dir="ltr">======================================================
+  Nova OAuth Wizard
+  Cloudflare Worker + KV + D1 Deployer
+======================================================
+  <b>URL:  http://127.0.0.1:8000/?token=Lkp3yEnpM8fNMPon...</b>
+  JS:   /home/you/Nova-Wizard/worker.js
+  [!] worker.js not found!
+
+  1. Open browser
+  2. Click 'Login with Cloudflare'
+  3. Authorize on Cloudflare
+  4. Enter names + Deploy</pre>
+    <p>مرورگر باید خودش روی همان آدرس باز شود. اگر باز نشد، کل آن خط را با توکنش در نوار آدرس مرورگر بچسبانید. خط <code>⁦worker.js not found⁩</code> در اجرای اول طبیعی است: دستیار پنل را بعداً، وقتی دکمهٔ ⁦Deploy⁩ را می‌زنید، دانلود می‌کند.</p>
+
+    <h3>⁦Windows⁩ بدون ⁦Python⁩</h3>
+    <p>یک برنامهٔ آماده هم هست، حدود ۸.۴ مگابایت، ۶۴ بیتی و قابل حمل. دانلودش کنید، دابل‌کلیک کنید، همان صفحهٔ محلی باز می‌شود.</p>
+    <p class="actions"><a class="btn btn-ghost" href="https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe">دانلود ⁦NovaWizard.exe⁩</a></p>
+
+    <h3>خودتان آن برنامه را بسازید</h3>
+    <p>از <a href="https://github.com/IRNova/Nova-Wizard/blob/main/BUILD.md" target="_blank" rel="noopener noreferrer">⁦BUILD.md⁩</a>. این بخش ⁦Windows⁩ و ⁦Python 3.14⁩ یا جدیدتر می‌خواهد، و موقع ساخت باید پوشهٔ <code>⁦static⁩</code> کنار <code>⁦nova_wizard.py⁩</code> باشد.</p>
+    <div class="code">
+      <pre id="cmd-build" dir="ltr"><code>pip install pyinstaller Pillow
+pyinstaller --onefile --name NovaWizard --add-data "static;static" --icon app.ico nova_wizard.py</code></pre>
+      <button type="button" class="copy" data-for="cmd-build" aria-label="کپی دستورهای ساخت">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M6 15H5.5A1.5 1.5 0 0 1 4 13.5v-9A1.5 1.5 0 0 1 5.5 3h9A1.5 1.5 0 0 1 16 4.5V5"/></svg>
+      </button>
+    </div>
+    <p>برنامهٔ نهایی در <code>⁦dist/NovaWizard.exe⁩</code> ساخته می‌شود.</p>
+  </section>
+
+  <section id="result">
+    <h2>چه چیزی روی حساب ⁦Cloudflare⁩ شما ساخته می‌شود</h2>
+    <ul class="plain">
+      <li><b>یک ⁦Worker⁩</b> که پنل نوا پروکسی را اجرا می‌کند، روی یک آدرس ⁦workers.dev⁩.</li>
+      <li><b>یک فضای ⁦KV⁩</b> که ساخته و به همان ⁦Worker⁩ وصل می‌شود.</li>
+      <li><b>یک دیتابیس ⁦D1⁩</b> که ساخته و به همان ⁦Worker⁩ وصل می‌شود.</li>
+    </ul>
+    <p>هر سه اسم به‌طور پیش‌فرض تصادفی‌اند و هر سه را می‌شود پیش از زدن ⁦Deploy⁩ عوض کرد. به چیز دیگری روی حسابتان دست نمی‌زند.</p>
+    <p>وقتی کار تمام شد، دستیار آدرس پنل و مشخصات اولین ورود را نشان می‌دهد. پنل را باز کنید و همان اول رمز عبور دلخواه خودتان را تنظیم کنید.</p>
+    <div class="note iran">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.2 9h17.6M3.2 15h17.6"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg>
+      <div><b>داخل ایران:</b> آدرس‌های ⁦workers.dev⁩ فیلتر است. در داشبورد ⁦Cloudflare⁩ یک دامنهٔ اختصاصی به ⁦Worker⁩ اضافه کنید و از همان آدرس استفاده کنید.</div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <div class="social">
+      <a href="https://novaproxy.online/" target="_blank" rel="noopener noreferrer" title="وب‌سایت" aria-label="وب‌سایت نوا">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.2 9h17.6M3.2 15h17.6"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg>
+      </a>
+      <a href="https://t.me/irnova" target="_blank" rel="noopener noreferrer" title="کانال تلگرام" aria-label="کانال تلگرام">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.3 2.9 11.1c-.8.3-.8 1.4 0 1.7l4.6 1.5 1.8 5c.2.7 1.1.8 1.6.3l2.4-2.4 4.4 3.2c.6.4 1.4.1 1.6-.6l3-14.4c.1-.8-.6-1.4-1.1-1.1z"/><path d="m7.5 14.3 10-7.8-6.6 9.7"/></svg>
+      </a>
+      <a href="https://t.me/irnova_group" target="_blank" rel="noopener noreferrer" title="گروه تلگرام" aria-label="گروه تلگرام">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20"/><circle cx="9.5" cy="8" r="3.2"/><path d="M21 20v-1.6a3.4 3.4 0 0 0-2.6-3.3"/><path d="M15.5 5a3.2 3.2 0 0 1 0 6"/></svg>
+      </a>
+      <a href="https://youtube.com/@novaproxyir" target="_blank" rel="noopener noreferrer" title="یوتیوب" aria-label="کانال یوتیوب">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><polygon points="10.5 9.5 15.5 12 10.5 14.5" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://x.com/irNovaProxy" target="_blank" rel="noopener noreferrer" title="ایکس" aria-label="صفحهٔ ایکس">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l11.7 16H20L8.3 4z"/><path d="M4 20l6.8-6.8M17.2 3.2l-6.8 6.8"/></svg>
+      </a>
+      <a href="https://github.com/IRNova/Nova-Wizard" target="_blank" rel="noopener noreferrer" title="دستیار نوا روی گیت‌هاب" aria-label="دستیار نوا روی گیت‌هاب">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+    </div>
+    <p class="foot-line">دستیار نوا، پروژه‌ای از <a href="https://github.com/IRNova" target="_blank" rel="noopener noreferrer">⁦IRNova⁩</a>.</p>
+    <p class="foot-line"><a href="../" lang="en" hreflang="en">⁦This page in English⁩</a></p>
+  </div>
+
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../app.js" defer></script>
+</body>
+</html>

@@ -6,6 +6,7 @@ dist/
 # Icon source
 *.ico
 *.png
+!docs/img/*.png
 
 # Runtime files
 worker.js
