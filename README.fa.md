@@ -10,8 +10,8 @@
 <div align="center">
 
 [![Website](https://img.shields.io/badge/🌐%20Website-novaproxy.online-0ea5e9?style=for-the-badge)](https://novaproxy.online/)
-[![Telegram Channel](https://img.shields.io/badge/✈️%20Telegram%20Channel-@irnova__proxy-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova_proxy)
-[![Telegram Group](https://img.shields.io/badge/👥%20Telegram%20Group-@irnovaproxy__group-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnovaproxy_group)
+[![Telegram Channel](https://img.shields.io/badge/✈️%20Telegram%20Channel-@irnova-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova)
+[![Telegram Group](https://img.shields.io/badge/👥%20Telegram%20Group-@irnova__group-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova_group)
 [![YouTube](https://img.shields.io/badge/▶️%20YouTube-@novaproxyir-ff0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/@novaproxyir)
 [![X (Twitter)](https://img.shields.io/badge/𝕏%20X-@irNovaProxy-000000?style=for-the-badge&logo=x)](https://x.com/irNovaProxy)
 </div>
@@ -41,7 +41,7 @@
 
 سریع‌ترین راه برای دیپلوی نوا پروکسی از طریق وب‌سایت رسمی ما:
 
-[**🚀 نصب از novaproxy.online**](https://novaproxy.online/install)
+[**🚀 نصب از novaproxy.online**](https://novaproxy.online/setup/)
 
 نیاز به دانلود و تنظیمات نداره، فقط کلیک کن، به Cloudflare اجازه بده، تموم شد. این روش از ابزار محلی سریع‌تر است.
 
@@ -167,8 +167,8 @@ pyinstaller --onefile --name NovaWizard --add-data "static;static" --icon app.ic
 <div align="center">
 
 [![Website](https://img.shields.io/badge/%F0%9F%8C%90%20Website-novaproxy.online-0ea5e9?style=for-the-badge)](https://novaproxy.online/)
-[![Telegram Channel](https://img.shields.io/badge/%E2%9C%88%EF%B8%8F%20Telegram%20Channel-@irnova__proxy-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova_proxy)
-[![Telegram Group](https://img.shields.io/badge/%F0%9F%91%A5%20Telegram%20Group-@irnovaproxy__group-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnovaproxy_group)
+[![Telegram Channel](https://img.shields.io/badge/%E2%9C%88%EF%B8%8F%20Telegram%20Channel-@irnova-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova)
+[![Telegram Group](https://img.shields.io/badge/%F0%9F%91%A5%20Telegram%20Group-@irnova__group-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova_group)
 [![YouTube](https://img.shields.io/badge/%E2%96%B6%EF%B8%8F%20YouTube-@novaproxyir-ff0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/@novaproxyir)
 [![X (Twitter)](https://img.shields.io/badge/%F0%9D%95%8F%20X-@irNovaProxy-000000?style=for-the-badge&logo=x)](https://x.com/irNovaProxy)
 [![GitHub](https://img.shields.io/badge/%F0%9F%90%99%20GitHub-IRNova/Nova--Proxy-181717?style=for-the-badge&logo=github)](https://github.com/IRNova/Nova-Proxy)
