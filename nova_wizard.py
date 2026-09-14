@@ -4,7 +4,7 @@ Nova OAuth Wizard: OAuth-only Cloudflare Worker deployer.
 """
 from __future__ import annotations
 
-import base64, hashlib, json, mimetypes, os, secrets, ssl, sys, threading, traceback
+import base64, hashlib, json, mimetypes, os, secrets, ssl, sys, threading, time, traceback
 import uuid as uuid_mod
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -19,6 +19,11 @@ else:
 STATIC_DIR = BASE_DIR / "static"
 WORKER_FILE = BASE_DIR / "worker.js"
 GITHUB_WORKER_URL = "https://raw.githubusercontent.com/IRNova/Nova-Proxy/refs/heads/main/worker.js"
+# The exact release the Telegram bot deploys. Both tools install the same bytes or
+# neither does: this tool downloads an executable over the network and hands it
+# straight to the user's own Cloudflare account, so an unverified download is a
+# supply-chain hole. Bump this together with the bot's WORKER_JS_SHA256.
+WORKER_SHA256 = "2088346c0b84df0d5302ac95119f0426ebd41ebf11e961e9526388ab6d3cd2cb"
 CF_API_BASE = "https://api.cloudflare.com/client/v4"
 LOCAL_TOKEN = secrets.token_urlsafe(32)
 COOKIE_NAME = "nova_token"
@@ -85,8 +90,17 @@ def fetch_worker_from_github():
             headers={"User-Agent":"Mozilla/5.0"}), timeout=30) as r:
             code = r.read()
             if len(code) < 100: raise _CFErr(f"Downloaded file too small ({len(code)} bytes)")
+            got = hashlib.sha256(code).hexdigest()
+            if got != WORKER_SHA256:
+                # Fail closed. Nothing is written, so a later run cannot pick up a
+                # rejected file that happens to be sitting on disk.
+                raise _CFErr(
+                    "worker.js does not match the expected release.\n"
+                    f"  expected {WORKER_SHA256}\n  got      {got}\n"
+                    "Refusing to deploy it. If Nova has published a new release, update "
+                    "WORKER_SHA256 in this file to the new digest.")
             WORKER_FILE.write_bytes(code)
-            print(f"  [fetch] OK, {len(code)} bytes saved")
+            print(f"  [fetch] OK, {len(code)} bytes saved, sha256 verified")
             return len(code)
     except urlerror.HTTPError as e:
         raw = e.read()
@@ -422,7 +436,43 @@ def build_pages_multi(code):
 
 # ─── deploy ────────────────────────────────────────────────
 
-def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type):
+def rand_hex(n_bytes=6):
+    """A secret path segment. Same shape and length the Telegram bot uses."""
+    return secrets.token_hex(n_bytes)
+
+
+def rand_password(length=18):
+    """A strong admin password with the ambiguous glyphs (0/O, 1/l/I) left out,
+    because people read this one off a screen and type it somewhere else."""
+    alphabet = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789"
+    return "".join(secrets.choice(alphabet) for _ in range(length))
+
+
+def claim_panel(panel_url, password, attempts=10, delay=6):
+    """Set the admin password ourselves, as soon as the panel answers.
+
+    The shipped artifact has no claim-token gate, so between deploy and someone
+    setting a password, /install/set is open to whoever reaches it first. That is
+    not a small window on a public workers.dev hostname. The Telegram bot closes
+    it by claiming immediately, and this does the same.
+
+    Returns True once the panel accepts the password."""
+    url = panel_url.rstrip("/") + "/install/set"
+    body = json.dumps({"password": password}).encode()
+    for _ in range(attempts):
+        try:
+            req = urlrequest.Request(url, data=body, method="POST",
+                                     headers={"Content-Type": "application/json"})
+            with urlrequest.urlopen(req, timeout=10, context=_make_ssl_ctx()) as r:
+                if 200 <= r.status < 300:
+                    return True
+        except Exception:
+            pass
+        time.sleep(delay)
+    return False
+
+
+def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type, paths=None):
     kv = get_or_create_kv(cf, aid, kv_title)
     kv_id = kv.get("id")
     if not kv_id: raise _CFErr("KV namespace ID not found")
@@ -432,13 +482,31 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type):
         d1_db = get_or_create_d1(cf, aid, d1_name)
         d1_id = d1_db.get("id")
 
-    # We deliberately do NOT pre-set a password or bind ADMIN/UUID/KEY. The worker treats an env
-    # ADMIN/KEY/UUID as an already-configured admin password and would skip its /install page,
-    # silently choosing the password for the user. Instead we leave those unset so the worker sends
-    # the user to /install on first visit to pick THEIR OWN password. The worker auto-generates and
-    # pins its encryption key (auto_key) and node UUID (worker_uuid) in KV on first run.
+    # Secret paths, the same shape the Telegram bot uses.
+    #
+    # Left unset, the panel answers on /admin and /login, which anyone scanning
+    # workers.dev can find. The shipped artifact reads ADMIN_PATH, LOGIN_PATH,
+    # WS_PATH and SUB_PATH, so there is no reason to hand out the default ones.
+    #
+    # ADMIN/KEY/UUID stay unset on purpose: the worker treats an env ADMIN as an
+    # already-configured password and would skip /install entirely. The password
+    # is claimed over HTTP right after deploy instead, see claim_panel.
+    # A second door must answer on the SAME secret paths and the same UUID as the
+    # Worker, or it is a different panel wearing the same database.
+    paths = paths or {}
+    ws_path = paths.get("ws") or rand_hex(6)
+    admin_path = paths.get("admin") or rand_hex(6)
+    login_path = paths.get("login") or rand_hex(6)
+    sub_path = paths.get("sub") or rand_hex(6)
+    panel_uuid = paths.get("uuid") or str(uuid_mod.uuid4())
     bindings = [
         {"type": "kv_namespace", "name": "KV", "namespace_id": kv_id},
+        {"type": "plain_text", "name": "WS_PATH", "text": ws_path},
+        {"type": "plain_text", "name": "PATH", "text": "/" + ws_path},
+        {"type": "plain_text", "name": "ADMIN_PATH", "text": admin_path},
+        {"type": "plain_text", "name": "LOGIN_PATH", "text": login_path},
+        {"type": "plain_text", "name": "SUB_PATH", "text": sub_path},
+        {"type": "plain_text", "name": "UUID", "text": panel_uuid},
     ]
     if d1_id: bindings.append({"type": "d1", "name": "DB", "database_id": d1_id})
     for k, v in extra_env.items():
@@ -446,7 +514,7 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type):
 
     # global_fetch_strictly_public lets backend mode reach a same-account gray-cloud VPS hostname
     # without Cloudflare returning 522 (self-loop). nodejs_compat is required by the worker.
-    meta = {"main_module": "worker.js", "compatibility_date": "2025-01-01",
+    meta = {"main_module": "worker.js", "compatibility_date": "2026-07-31",
             "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"], "bindings": bindings}
     code = WORKER_FILE.read_bytes()
 
@@ -457,11 +525,19 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type):
             kv_ns = {"KV": {"namespace_id": kv_id}}
             d1_b = {}
             if d1_id: d1_b = {"DB": {"database_id": d1_id, "type": "d1"}}
-            # No ADMIN/UUID/KEY, so let the worker's /install page take the user's own password.
-            ev = {}
+            # The same secret paths as the Workers branch; a Pages door that answered
+            # on /admin would undo the point of setting them at all.
+            ev = {
+                "WS_PATH": {"type": "plain_text", "value": ws_path},
+                "PATH": {"type": "plain_text", "value": "/" + ws_path},
+                "ADMIN_PATH": {"type": "plain_text", "value": admin_path},
+                "LOGIN_PATH": {"type": "plain_text", "value": login_path},
+                "SUB_PATH": {"type": "plain_text", "value": sub_path},
+                "UUID": {"type": "plain_text", "value": panel_uuid},
+            }
             for k, v in extra_env.items():
                 if v: ev[k] = {"type":"plain_text","value":v}
-            proj = {"name": worker_name, "production_branch": "main", "compatibility_date": "2025-01-01", "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"], "kv_namespaces": kv_ns, "d1_databases": d1_b, "env_vars": ev}
+            proj = {"name": worker_name, "production_branch": "main", "compatibility_date": "2026-07-31", "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"], "kv_namespaces": kv_ns, "d1_databases": d1_b, "env_vars": ev}
             if ex and ex.get("result"):
                 cf.req("PATCH", f"/accounts/{quote(aid)}/pages/projects/{quote(worker_name)}", json_body=proj)
             else:
@@ -483,10 +559,31 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type):
         asub = get_subdomain(cf, aid)
         url = f"https://{worker_name}.{asub}.workers.dev" if asub else ""
 
-    # panel_url points at /install so the user sets their own password on first visit.
-    return {"worker_name": worker_name, "worker_url": url, "panel_url": url + "/install" if url else "",
-        "set_password": True,
-        "kv_namespace": kv, "d1_database": d1_db, "deploy_type": deploy_type}
+    # Claim the panel before handing it over.
+    #
+    # /install/set is open until somebody sets a password, so a panel left unclaimed
+    # belongs to whoever reaches it first. We set a strong one now and show it to the
+    # owner, who can change it from inside the panel. Same order the Telegram bot uses.
+    if paths.get("skip_claim"):
+        password, claimed = "", True
+    else:
+        password = rand_password()
+        claimed = claim_panel(url, password) if url else False
+
+    return {"worker_name": worker_name, "worker_url": url,
+        # The secret login path, not /login. /login and /admin serve a decoy.
+        "panel_url": f"{url}/{login_path}" if url else "",
+        "login_path": login_path, "admin_path": admin_path,
+        "admin_pass": password if claimed else "",
+        "claimed": claimed,
+        # Only true when we could NOT claim it, in which case the owner has to set
+        # the password themselves, immediately, at /install.
+        "set_password": not claimed,
+        "install_url": f"{url}/install" if url else "",
+        "kv_namespace": kv, "d1_database": d1_db, "deploy_type": deploy_type,
+        "paths": {"ws": ws_path, "admin": admin_path, "login": login_path,
+                  "sub": sub_path, "uuid": panel_uuid},
+        "kv_id": kv_id, "d1_id": d1_id}
 
 def report_install(worker_url):
     """Tell novaproxy.online's counter about a real deploy, in the background.
@@ -662,6 +759,32 @@ class Handler(BaseHTTPRequestHandler):
                     v = (body.get(k.lower()) or "").strip()
                     if v: extra[k] = v
                 result = deploy(cf, aid, wn, kv, d1, extra, dt)
+
+                # The second door.
+                #
+                # Measured 2026-09-14 across the fleet: of 230 wedged panels that had a
+                # pages.dev door, 229 Workers were returning 1101 and 227 of the doors
+                # were still serving. A Worker slot can wedge for reasons that have
+                # nothing to do with the code on it, and when that happens the Pages
+                # address is what is left. Iran also filters workers.dev and pages.dev
+                # separately, so two addresses survive one filtering decision.
+                #
+                # Same database, same secret paths, same UUID, so it is one panel on two
+                # addresses rather than two panels. Built AFTER the claim: a door raised
+                # before a password exists is a panel anyone can take.
+                #
+                # Best effort. A panel with one working address is a successful install,
+                # so nothing here may fail the deploy.
+                if dt != "pages" and result.get("claimed"):
+                    try:
+                        door = deploy(cf, aid, f"{wn}-door", kv, d1, extra, "pages",
+                                      paths={**result.get("paths", {}), "skip_claim": True})
+                        if door.get("worker_url"):
+                            result["door_url"] = door["worker_url"]
+                            result["door_panel_url"] = door.get("panel_url", "")
+                    except Exception as e:
+                        result["door_error"] = str(e)[:200]
+
                 report_install(result.get("worker_url"))
                 result["id"] = secrets.token_hex(8)
                 result["account_id"] = aid
