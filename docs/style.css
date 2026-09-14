@@ -337,6 +337,16 @@ html[lang='fa'] .rail .body{padding-top:1px}
   direction:ltr;text-align:left;
 }
 .code pre code{font:inherit;color:inherit;background:none;border:0;padding:0}
+
+/* The one command someone actually types WRAPS instead of scrolling.
+ *
+ * It is 89 characters, which measured 700px in a 430px box, so scrolling it
+ * meant a reader could land mid-URL and not see where their own command began.
+ * A shell line broken across visual lines is still one line when copied, so
+ * wrapping costs nothing and showing the whole thing is the point. The terminal
+ * transcript and the build commands keep scrolling: those are output and
+ * reference, not something to read start to finish. */
+#cmd-run{white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:visible}
 .copy{
   /* the code itself is always LTR, so the button is pinned to the physical
      right on both the English and the Farsi page. */
