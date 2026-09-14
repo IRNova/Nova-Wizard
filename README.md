@@ -119,18 +119,16 @@ Nova Wizard runs natively on Linux, no EXE needed.
 ### Quick start
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/IRNova/Nova-Wizard.git
-cd Nova-Wizard
-
-# 2. Run directly with Python
+curl -fsSL https://novaproxy.online/wizard.py -o nova_wizard.py
 python3 nova_wizard.py
 ```
+
+One file, no `git`. The wizard carries its own interface, so this is everything it needs.
 
 ### Requirements
 
 - Python 3.8+ (built-in on most distros)
-- `static/index.html`, which the clone already gives you
+- Nothing else. The wizard carries its own interface inside `nova_wizard.py`.
 
 ---
 
