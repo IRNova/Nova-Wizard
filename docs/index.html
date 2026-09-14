@@ -4,12 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="dark light" />
-<meta name="theme-color" content="#070809" />
+<meta name="theme-color" content="#070809" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f1f4f9" media="(prefers-color-scheme: light)" />
 <title>Nova Wizard</title>
 <meta name="description" content="Nova Wizard builds a Nova Proxy panel on your own Cloudflare account, from your own computer. The route for people who will not use the Telegram bot." />
 <link rel="icon" href="img/mark.svg" type="image/svg+xml" />
 <link rel="alternate" hreflang="fa" href="fa/" />
 <link rel="alternate" hreflang="en" href="./" />
+<link rel="preload" href="fonts/Vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="style.css" />
 <script>
 /* Stamp the theme before first paint: the saved choice, else the operating
@@ -89,7 +91,7 @@ document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
         <span class="num" aria-hidden="true">2</span>
         <div class="body">
           <h3>A local page opens</h3>
-          <p>The wizard serves a page on <code>127.0.0.1</code> and opens your browser on it. The address carries a token that is new every run and only works on your own machine.</p>
+          <p>The wizard serves a page on <code translate="no">127.0.0.1</code> and opens your browser on it. The address carries a token that is new every run and only works on your own machine.</p>
         </div>
       </li>
       <li>
@@ -130,7 +132,7 @@ document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
       </div>
       <div>
         <dt>Python 3.8 or newer</dt>
-        <dd>Already present on macOS and on most Linux systems. Check with <code>python3 --version</code>. On Windows you can skip Python and use the prebuilt program below.</dd>
+        <dd>Already present on macOS and on most Linux systems. Check with <code translate="no">python3 --version</code>. On Windows you can skip Python and use the prebuilt program below.</dd>
       </div>
       <div>
         <dt>A terminal</dt>
@@ -156,7 +158,7 @@ document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
 
     <h3>macOS, Linux, or Windows with Python</h3>
     <div class="code">
-      <pre id="cmd-run"><code>git clone https://github.com/IRNova/Nova-Wizard.git
+      <pre translate="no" id="cmd-run"><code translate="no">git clone https://github.com/IRNova/Nova-Wizard.git
 cd Nova-Wizard
 python3 nova_wizard.py</code></pre>
       <button type="button" class="copy" data-for="cmd-run" aria-label="Copy these commands">
@@ -165,7 +167,7 @@ python3 nova_wizard.py</code></pre>
     </div>
 
     <p class="cap">The terminal then prints something like this:</p>
-    <pre class="term">======================================================
+    <pre translate="no" class="term">======================================================
   Nova OAuth Wizard
   Cloudflare Worker + KV + D1 Deployer
 ======================================================
@@ -177,22 +179,22 @@ python3 nova_wizard.py</code></pre>
   2. Click 'Login with Cloudflare'
   3. Authorize on Cloudflare
   4. Enter names + Deploy</pre>
-    <p>Your browser should open on that address by itself. If it does not, paste the whole line into the browser yourself, token and all. The <code>worker.js not found</code> line on a first run is normal: the wizard downloads the panel later, when you press Deploy.</p>
+    <p>Your browser should open on that address by itself. If it does not, paste the whole line into the browser yourself, token and all. The <code translate="no">worker.js not found</code> line on a first run is normal: the wizard downloads the panel later, when you press Deploy.</p>
 
     <h3>Windows without Python</h3>
-    <p>There is a prebuilt program, about 8.4 MB, 64 bit, portable. Download it, double click it, and the same local page opens.</p>
+    <p>There is a prebuilt program, about 8.4&nbsp;MB, 64&nbsp;bit, portable. Download it, double click it, and the same local page opens.</p>
     <p class="actions"><a class="btn btn-ghost" href="https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe">Download NovaWizard.exe</a></p>
 
     <h3>Build that program yourself</h3>
-    <p>From <a href="https://github.com/IRNova/Nova-Wizard/blob/main/BUILD.md" target="_blank" rel="noopener noreferrer">BUILD.md</a>. This part needs Windows and Python 3.14 or newer, and the <code>static</code> folder has to sit next to <code>nova_wizard.py</code> when you build.</p>
+    <p>From <a href="https://github.com/IRNova/Nova-Wizard/blob/main/BUILD.md" target="_blank" rel="noopener noreferrer">BUILD.md</a>. This part needs Windows and Python 3.14 or newer, and the <code translate="no">static</code> folder has to sit next to <code translate="no">nova_wizard.py</code> when you build.</p>
     <div class="code">
-      <pre id="cmd-build"><code>pip install pyinstaller Pillow
+      <pre translate="no" id="cmd-build"><code translate="no">pip install pyinstaller Pillow
 pyinstaller --onefile --name NovaWizard --add-data "static;static" --icon app.ico nova_wizard.py</code></pre>
       <button type="button" class="copy" data-for="cmd-build" aria-label="Copy the build commands">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M6 15H5.5A1.5 1.5 0 0 1 4 13.5v-9A1.5 1.5 0 0 1 5.5 3h9A1.5 1.5 0 0 1 16 4.5V5"/></svg>
       </button>
     </div>
-    <p>The finished program lands at <code>dist/NovaWizard.exe</code>.</p>
+    <p>The finished program lands at <code translate="no">dist/NovaWizard.exe</code>.</p>
   </section>
 
   <section id="result">

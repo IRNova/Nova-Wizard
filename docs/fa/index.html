@@ -4,12 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="dark light" />
-<meta name="theme-color" content="#070809" />
+<meta name="theme-color" content="#070809" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f1f4f9" media="(prefers-color-scheme: light)" />
 <title>دستیار نوا</title>
 <meta name="description" content="دستیار نوا پنل نوا پروکسی را روی حساب Cloudflare خودتان، از روی کامپیوتر خودتان نصب می‌کند. مسیر کسانی که سراغ ربات تلگرام نمی‌روند." />
 <link rel="icon" href="../img/mark.svg" type="image/svg+xml" />
 <link rel="alternate" hreflang="en" href="../" />
 <link rel="alternate" hreflang="fa" href="./" />
+<link rel="preload" href="../fonts/Vazirmatn-arabic.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="../style.css" />
 <script>
 /* تم را پیش از اولین رنگ‌آمیزی صفحه تعیین می‌کند: انتخاب ذخیره‌شده، وگرنه تم سیستم. */
@@ -88,7 +90,7 @@ document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
         <span class="num" aria-hidden="true">۲</span>
         <div class="body">
           <h3>یک صفحهٔ محلی باز می‌شود</h3>
-          <p>دستیار یک صفحه روی <code>⁦127.0.0.1⁩</code> بالا می‌آورد و مرورگر را روی همان باز می‌کند. آن آدرس یک توکن دارد که هر بار تازه است و فقط روی دستگاه خودتان کار می‌کند.</p>
+          <p>دستیار یک صفحه روی <code translate="no">⁦127.0.0.1⁩</code> بالا می‌آورد و مرورگر را روی همان باز می‌کند. آن آدرس یک توکن دارد که هر بار تازه است و فقط روی دستگاه خودتان کار می‌کند.</p>
         </div>
       </li>
       <li>
@@ -129,7 +131,7 @@ document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
       </div>
       <div>
         <dt>⁦Python 3.8⁩ یا جدیدتر</dt>
-        <dd>روی ⁦macOS⁩ و بیشتر توزیع‌های ⁦Linux⁩ از قبل نصب است. با <code>⁦python3 --version⁩</code> چکش کنید. روی ⁦Windows⁩ می‌توانید ⁦Python⁩ را رد کنید و از برنامهٔ آمادهٔ پایین استفاده کنید.</dd>
+        <dd>روی ⁦macOS⁩ و بیشتر توزیع‌های ⁦Linux⁩ از قبل نصب است. با <code translate="no">⁦python3 --version⁩</code> چکش کنید. روی ⁦Windows⁩ می‌توانید ⁦Python⁩ را رد کنید و از برنامهٔ آمادهٔ پایین استفاده کنید.</dd>
       </div>
       <div>
         <dt>یک ترمینال</dt>
@@ -155,7 +157,7 @@ document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
 
     <h3>⁦macOS⁩، ⁦Linux⁩، یا ⁦Windows⁩ با ⁦Python⁩</h3>
     <div class="code">
-      <pre id="cmd-run" dir="ltr"><code>git clone https://github.com/IRNova/Nova-Wizard.git
+      <pre translate="no" id="cmd-run" dir="ltr"><code translate="no">git clone https://github.com/IRNova/Nova-Wizard.git
 cd Nova-Wizard
 python3 nova_wizard.py</code></pre>
       <button type="button" class="copy" data-for="cmd-run" aria-label="کپی این دستورها">
@@ -164,7 +166,7 @@ python3 nova_wizard.py</code></pre>
     </div>
 
     <p class="cap">بعد ترمینال چیزی شبیه این چاپ می‌کند:</p>
-    <pre class="term" dir="ltr">======================================================
+    <pre translate="no" class="term" dir="ltr">======================================================
   Nova OAuth Wizard
   Cloudflare Worker + KV + D1 Deployer
 ======================================================
@@ -176,22 +178,22 @@ python3 nova_wizard.py</code></pre>
   2. Click 'Login with Cloudflare'
   3. Authorize on Cloudflare
   4. Enter names + Deploy</pre>
-    <p>مرورگر باید خودش روی همان آدرس باز شود. اگر باز نشد، کل آن خط را با توکنش در نوار آدرس مرورگر بچسبانید. خط <code>⁦worker.js not found⁩</code> در اجرای اول طبیعی است: دستیار پنل را بعداً، وقتی دکمهٔ ⁦Deploy⁩ را می‌زنید، دانلود می‌کند.</p>
+    <p>مرورگر باید خودش روی همان آدرس باز شود. اگر باز نشد، کل آن خط را با توکنش در نوار آدرس مرورگر بچسبانید. خط <code translate="no">⁦worker.js not found⁩</code> در اجرای اول طبیعی است: دستیار پنل را بعداً، وقتی دکمهٔ ⁦Deploy⁩ را می‌زنید، دانلود می‌کند.</p>
 
     <h3>⁦Windows⁩ بدون ⁦Python⁩</h3>
-    <p>یک برنامهٔ آماده هم هست، حدود ۸.۴ مگابایت، ۶۴ بیتی و قابل حمل. دانلودش کنید، دابل‌کلیک کنید، همان صفحهٔ محلی باز می‌شود.</p>
+    <p>یک برنامهٔ آماده هم هست، حدود ۸.۴&nbsp;مگابایت، ۶۴&nbsp;بیتی و قابل حمل. دانلودش کنید، دابل‌کلیک کنید، همان صفحهٔ محلی باز می‌شود.</p>
     <p class="actions"><a class="btn btn-ghost" href="https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe">دانلود ⁦NovaWizard.exe⁩</a></p>
 
     <h3>خودتان آن برنامه را بسازید</h3>
-    <p>از <a href="https://github.com/IRNova/Nova-Wizard/blob/main/BUILD.md" target="_blank" rel="noopener noreferrer">⁦BUILD.md⁩</a>. این بخش ⁦Windows⁩ و ⁦Python 3.14⁩ یا جدیدتر می‌خواهد، و موقع ساخت باید پوشهٔ <code>⁦static⁩</code> کنار <code>⁦nova_wizard.py⁩</code> باشد.</p>
+    <p>از <a href="https://github.com/IRNova/Nova-Wizard/blob/main/BUILD.md" target="_blank" rel="noopener noreferrer">⁦BUILD.md⁩</a>. این بخش ⁦Windows⁩ و ⁦Python 3.14⁩ یا جدیدتر می‌خواهد، و موقع ساخت باید پوشهٔ <code translate="no">⁦static⁩</code> کنار <code translate="no">⁦nova_wizard.py⁩</code> باشد.</p>
     <div class="code">
-      <pre id="cmd-build" dir="ltr"><code>pip install pyinstaller Pillow
+      <pre translate="no" id="cmd-build" dir="ltr"><code translate="no">pip install pyinstaller Pillow
 pyinstaller --onefile --name NovaWizard --add-data "static;static" --icon app.ico nova_wizard.py</code></pre>
       <button type="button" class="copy" data-for="cmd-build" aria-label="کپی دستورهای ساخت">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M6 15H5.5A1.5 1.5 0 0 1 4 13.5v-9A1.5 1.5 0 0 1 5.5 3h9A1.5 1.5 0 0 1 16 4.5V5"/></svg>
       </button>
     </div>
-    <p>برنامهٔ نهایی در <code>⁦dist/NovaWizard.exe⁩</code> ساخته می‌شود.</p>
+    <p>برنامهٔ نهایی در <code translate="no">⁦dist/NovaWizard.exe⁩</code> ساخته می‌شود.</p>
   </section>
 
   <section id="result">
