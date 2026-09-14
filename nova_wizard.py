@@ -448,7 +448,7 @@ def rand_password(length=18):
     return "".join(secrets.choice(alphabet) for _ in range(length))
 
 
-def claim_panel(panel_url, password, attempts=30, delay=6):
+def claim_panel(panel_urls, password, attempts=30, delay=6):
     """Set the admin password ourselves, as soon as the panel answers.
 
     The shipped artifact has no claim-token gate, so between deploy and someone
@@ -464,20 +464,29 @@ def claim_panel(panel_url, password, attempts=30, delay=6):
     unclaimed. A fresh account is the worst case, because the subdomain has to be
     created before anything can answer on it.
 
-    Returns True once the panel accepts the password."""
-    url = panel_url.rstrip("/") + "/install/set"
+    Takes every address the panel answers on and tries each one per round, because
+    the panel keeps its password in the shared D1 store: claiming on either address
+    claims both. A brand-new account's workers.dev subdomain has to be created before
+    it resolves, while the Pages hostname comes up on its own timeline, so racing them
+    claims through whichever is ready first instead of waiting on a fixed guess.
+
+    Returns the address that accepted the password, or "" if none did."""
+    if isinstance(panel_urls, str):
+        panel_urls = [panel_urls]
+    targets = [u.rstrip("/") + "/install/set" for u in panel_urls if u]
     body = json.dumps({"password": password}).encode()
     for _ in range(attempts):
-        try:
-            req = urlrequest.Request(url, data=body, method="POST",
-                                     headers={"Content-Type": "application/json"})
-            with urlrequest.urlopen(req, timeout=10, context=_make_ssl_ctx()) as r:
-                if 200 <= r.status < 300:
-                    return True
-        except Exception:
-            pass
+        for url in targets:
+            try:
+                req = urlrequest.Request(url, data=body, method="POST",
+                                         headers={"Content-Type": "application/json"})
+                with urlrequest.urlopen(req, timeout=10, context=_make_ssl_ctx()) as r:
+                    if 200 <= r.status < 300:
+                        return url[: -len("/install/set")]
+            except Exception:
+                pass
         time.sleep(delay)
-    return False
+    return ""
 
 
 def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type, paths=None):
@@ -572,11 +581,9 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type, path
     # /install/set is open until somebody sets a password, so a panel left unclaimed
     # belongs to whoever reaches it first. We set a strong one now and show it to the
     # owner, who can change it from inside the panel. Same order the Telegram bot uses.
-    if paths.get("skip_claim"):
-        password, claimed = "", True
-    else:
-        password = rand_password()
-        claimed = claim_panel(url, password) if url else False
+    # The claim is the caller's job now. It owns both addresses and can race them,
+    # which this function cannot see from inside a single deploy.
+    password, claimed = "", False
 
     return {"worker_name": worker_name, "worker_url": url,
         # The secret login path, not /login. /login and /admin serve a decoy.
@@ -768,6 +775,23 @@ class Handler(BaseHTTPRequestHandler):
                     if v: extra[k] = v
                 result = deploy(cf, aid, wn, kv, d1, extra, dt)
 
+                # The second door, then one claim across both addresses.
+                #
+                # The door used to be built only AFTER a successful claim, and the claim
+                # only ever spoke to the Worker. On a brand-new Cloudflare account the
+                # workers.dev subdomain does not exist yet, so the claim failed, so no
+                # door was built, so the user got a single unclaimed address. Observed
+                # exactly that on 2026-09-14: the hostname had still not resolved
+                # twenty-five minutes later. The one address that survives a 1101 wedge,
+                # and that does not depend on workers.dev at all, was gated behind
+                # workers.dev resolving.
+                #
+                # Both addresses share the D1 store, so claiming either claims both.
+                # Racing them claims through whichever is ready first, which SHORTENS
+                # the unclaimed window rather than lengthening it. The invariant that
+                # matters is unchanged: neither address is shown to the user until a
+                # password exists on it.
+                #
                 # The second door.
                 #
                 # Measured 2026-09-14 across the fleet: of 230 wedged panels that had a
@@ -783,15 +807,29 @@ class Handler(BaseHTTPRequestHandler):
                 #
                 # Best effort. A panel with one working address is a successful install,
                 # so nothing here may fail the deploy.
-                if dt != "pages" and result.get("claimed"):
+                door_url = ""
+                if dt != "pages":
                     try:
                         door = deploy(cf, aid, f"{wn}-door", kv, d1, extra, "pages",
                                       paths={**result.get("paths", {}), "skip_claim": True})
-                        if door.get("worker_url"):
-                            result["door_url"] = door["worker_url"]
-                            result["door_panel_url"] = door.get("panel_url", "")
+                        door_url = door.get("worker_url") or ""
                     except Exception as e:
                         result["door_error"] = str(e)[:200]
+
+                # One claim, both addresses, first one to answer wins.
+                password = rand_password()
+                claimed_on = claim_panel([u for u in (result.get("worker_url"), door_url) if u],
+                                         password)
+                result["claimed"] = bool(claimed_on)
+                result["admin_pass"] = password if claimed_on else ""
+                result["set_password"] = not claimed_on
+                result["claimed_on"] = claimed_on
+
+                # Only advertise the door once the panel has a password on it.
+                if door_url and claimed_on:
+                    login = (result.get("paths") or {}).get("login") or ""
+                    result["door_url"] = door_url
+                    result["door_panel_url"] = f"{door_url}/{login}" if login else door_url
 
                 report_install(result.get("worker_url"))
                 result["id"] = secrets.token_hex(8)
