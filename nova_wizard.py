@@ -541,7 +541,9 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type, path
             ex = cf.req("GET", f"/accounts/{quote(aid)}/pages/projects/{quote(worker_name)}", accept_404=True)
             kv_ns = {"KV": {"namespace_id": kv_id}}
             d1_b = {}
-            if d1_id: d1_b = {"DB": {"database_id": d1_id, "type": "d1"}}
+            # The shape the Telegram bot uses, which has built 1,769 working doors.
+            # Cloudflare does not reject the other spelling, it just ignores it.
+            if d1_id: d1_b = {"DB": {"id": d1_id}}
             # The same secret paths as the Workers branch; a Pages door that answered
             # on /admin would undo the point of setting them at all.
             ev = {
@@ -554,7 +556,21 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type, path
             }
             for k, v in extra_env.items():
                 if v: ev[k] = {"type":"plain_text","value":v}
-            proj = {"name": worker_name, "production_branch": "main", "compatibility_date": "2026-07-31", "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"], "kv_namespaces": kv_ns, "d1_databases": d1_b, "env_vars": ev}
+            # Bindings belong under deployment_configs.production, not at the top
+            # level. Cloudflare accepts the flat form and silently ignores it, so the
+            # project came up with no KV and no D1 and the panel answered
+            # {"error":"no_kv"} on every request. Confirmed live on 2026-09-14: the door
+            # deployed, resolved, served a redirect, and could not be claimed. The
+            # Telegram bot has always nested them, which is why its doors work.
+            production = {
+                "compatibility_date": "2026-07-31",
+                "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+                "kv_namespaces": kv_ns,
+                "env_vars": ev,
+            }
+            if d1_b: production["d1_databases"] = d1_b
+            proj = {"name": worker_name, "production_branch": "main",
+                    "deployment_configs": {"production": production}}
             if ex and ex.get("result"):
                 cf.req("PATCH", f"/accounts/{quote(aid)}/pages/projects/{quote(worker_name)}", json_body=proj)
             else:
