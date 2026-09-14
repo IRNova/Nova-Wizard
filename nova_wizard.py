@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Nova OAuth Wizard — OAuth-only Cloudflare Worker deployer.
+Nova OAuth Wizard: OAuth-only Cloudflare Worker deployer.
 """
 from __future__ import annotations
 
-import base64, hashlib, json, mimetypes, os, secrets, ssl, threading, traceback
+import base64, hashlib, json, mimetypes, os, secrets, ssl, sys, threading, traceback
 import uuid as uuid_mod
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
@@ -23,10 +23,34 @@ CF_API_BASE = "https://api.cloudflare.com/client/v4"
 LOCAL_TOKEN = secrets.token_urlsafe(32)
 COOKIE_NAME = "nova_token"
 
-OAUTH_CLIENT_ID = "54d11594-84e4-41aa-b438-e81b8fa78ee7"
+# The Nova mark, inlined so the callback page needs no network and no asset file.
+NOVA_MARK_SVG = (
+    '<svg width="48" height="48" viewBox="0 0 1254 1254" aria-hidden="true" focusable="false"> <defs><linearGradient id="cb-novaMark" x1="128.06" y1="1122.76" x2="1206.85" y2="43.97" gradientUnits="userSpaceOnUse"><stop offset=".04" stop-color="#9d4efb"/><stop offset="1" stop-color="#02cdf3"/></linearGradient></defs> <path fill="url(#cb-novaMark)" d="M1185.57,149.23c0-43.84-27.55-82.6-66.19-100.7-40.83-19.13-87.98-16.85-126.82,6.19-33.3,19.76-56.22,55.99-56.25,95.68l-.38,653.25.09,39.98c.03,13.51-.33,26.37-3.82,39.13-8.12,29.65-30.52,53.04-56.69,62.39-32.53,11.62-65.87,5.5-91.07-15.75-20.65-17.42-33.28-42.64-33.32-70.11l-.35-245.85.07-231.05c.04-148.83-97.26-281.46-240.38-321.81-67.49-19.02-138.62-19.66-204.99,2.42l-13.66,4.55C159.84,114.72,68.42,239.99,68.41,381.43l-.06,712.76c0,68.93,56.48,123.39,124.03,124.15,65.31.73,125.56-52.18,125.64-120.57l.88-712.63c.07-54.62,49.94-96.23,103.56-88.53,43.56,6.25,78.96,43.23,79.08,88.34l1.24,493.92c.16,62.52,24.72,123.29,59.49,174.21,43.7,63.99,108.48,111.28,182.25,133.98,91.72,28.23,190.9,16.68,273.4-31.79,36.89-21.68,68.83-50.13,94.95-83.49l16.54-23.16c31.76-44.47,56.26-119.27,56.25-174.93l-.09-724.43Z"/> </svg>'
+)
+
+# Nova's own Cloudflare OAuth client.
+#
+# This used to send Wrangler's client id, which works but is not ours: the consent
+# screen said "Wrangler", so people were asked to trust a tool they had not downloaded,
+# and Cloudflare could restrict that client at any time without warning.
+OAUTH_CLIENT_ID = "dcd106de09fd5a650720dd03d8f78c57"
 OAUTH_AUTH_URL = "https://dash.cloudflare.com/oauth2/auth"
 OAUTH_TOKEN_URL = "https://dash.cloudflare.com/oauth2/token"
-OAUTH_SCOPES = ["account:read","user:read","workers:write","workers_kv:write","workers_scripts:write","d1:write","pages:write","pages:read","zone:read"]
+# Third-party OAuth clients use a different scope namespace from Wrangler's. These are
+# the ids registered on the client above, verified against GET /client/v4/oauth/scopes.
+#
+# page.read is here because the deploy path does a GET on pages/projects before it
+# creates one. zone:read is gone: nothing in this file calls /zones, so it was asking
+# people for access it never used.
+OAUTH_SCOPES = [
+    "workers-scripts.write",     # upload the panel worker
+    "workers-kv-storage.write",  # its KV namespace
+    "d1.write",                  # its database
+    "page.write",                # the pages.dev second address
+    "page.read",                 # check whether that project already exists
+    "memberships.read",          # list the accounts the user can deploy into
+    "user-details.read",
+]
 OAUTH_REDIRECT_PORT = 8976
 
 _oauth_state = ""
@@ -61,7 +85,7 @@ def fetch_worker_from_github():
             code = r.read()
             if len(code) < 100: raise _CFErr(f"Downloaded file too small ({len(code)} bytes)")
             WORKER_FILE.write_bytes(code)
-            print(f"  [fetch] OK — {len(code)} bytes saved")
+            print(f"  [fetch] OK, {len(code)} bytes saved")
             return len(code)
     except urlerror.HTTPError as e:
         raw = e.read()
@@ -101,14 +125,14 @@ def oauth_url():
 def _make_ssl_ctx(verify=True):
     ctx = ssl.create_default_context()
     if not verify:
-        # Fallback only — some Windows Python installs ship without a CA bundle, which breaks
+        # Fallback only. Some Windows Python installs ship without a CA bundle, which breaks
         # TLS verification. We try verified first (below) and only use this if that fails.
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
     return ctx
 
 # Verified opener (secure). If the machine has no CA certs, we lazily fall back to an unverified
-# one inside exchange_token, with a printed warning — never silently insecure by default.
+# one inside exchange_token, with a printed warning, never silently insecure by default.
 _OAUTH_OPENER = urlrequest.build_opener(urlrequest.HTTPSHandler(context=_make_ssl_ctx(True)))
 _OAUTH_OPENER_INSECURE = None
 
@@ -125,7 +149,7 @@ def exchange_token(code, verifier):
     except urlerror.URLError as e:
         # If TLS verification failed (e.g. machine has no CA bundle), retry once unverified + warn.
         if isinstance(getattr(e, "reason", None), ssl.SSLError) or "CERTIFICATE" in str(getattr(e, "reason", "")).upper():
-            print("  [warn] TLS certificate could not be verified on this machine — retrying without verification.")
+            print("  [warn] TLS certificate could not be verified on this machine, retrying without verification.")
             if _OAUTH_OPENER_INSECURE is None:
                 _OAUTH_OPENER_INSECURE = urlrequest.build_opener(urlrequest.HTTPSHandler(context=_make_ssl_ctx(False)))
             try:
@@ -204,16 +228,16 @@ class OAuthCBHandler(BaseHTTPRequestHandler):
             if ok:
                 en_status = "Connected"
                 fa_status = "وصل شد"  # وصل شد
-                en_hint = "This window can be closed. The wizard continues automatically &mdash; switch back to it."
+                en_hint = "This window can be closed. The wizard continues automatically, so switch back to it."
                 fa_hint = ("این پنجره را می‌توانی "
                            "ببندی. دستیار خودکار "
-                           "ادامه می‌دهد — به آن برگرد.")  # close window / wizard continues
+                           "ادامه می‌دهد، به آن برگرد.")  # close window / wizard continues
                 extra_html = ('<p style="color:#9aa4b8;margin-top:12px;font-size:.95rem">' + en_hint + '</p>'
                               '<p style="color:#9aa4b8;margin-top:4px;font-size:.95rem" dir="rtl">' + fa_hint + '</p>')
             else:
                 en_status = "Sign-in failed"
                 fa_status = "ورود ناموفق بود"  # ورود ناموفق بود
-                btn_label = "Try again &middot; دوباره"  # Try again · دوباره
+                btn_label = "Try again / دوباره"  # Try again / dobare
                 extra_html = ('<p style="color:#fca5a5;margin:8px 0 0;font-size:.9rem">' + msg + '</p>'
                               '<button onclick="window.close();if(window.opener)window.opener.location.reload()" '
                               'style="padding:11px 24px;border-radius:12px;border:none;'
@@ -222,14 +246,13 @@ class OAuthCBHandler(BaseHTTPRequestHandler):
             html = (
                 '<!doctype html><html lang="en"><head><meta charset="utf-8">'
                 '<meta name="viewport" content="width=device-width,initial-scale=1"><title>Nova</title>'
-                '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet"></head>'
                 '<body style="margin:0;background:#05060a;color:#eef1f7;'
-                'font-family:Inter,Vazirmatn,system-ui,-apple-system,Segoe UI,sans-serif;'
+                'font-family:Vazirmatn,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;'
                 'display:grid;place-items:center;min-height:100vh">'
                 '<div style="text-align:center;padding:36px;max-width:440px">'
-                '<div style="width:48px;height:48px;border-radius:12px;margin:0 auto 18px;'
-                'background:linear-gradient(120deg,#22d3ee,#818cf8,#a855f7);display:flex;'
-                'align-items:center;justify-content:center;font-weight:900;color:#05060a;font-size:24px">N</div>'
+                # The real Nova mark, the same inlined SVG the wizard UI uses, rather than a
+                # gradient tile with a letter in it.
+                '<div style="margin:0 auto 18px;width:48px;height:48px">' + NOVA_MARK_SVG + '</div>'
                 '<h1 style="font-size:1.4rem;font-weight:800;margin:0 0 14px">Nova Wizard</h1>'
                 '<p style="font-size:1.1rem;margin:0;font-weight:600">' + icon + ' ' + en_status
                 + ' <span style="color:#9aa4b8">/</span> ' + fa_status + '</p>'
@@ -383,7 +406,7 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type):
         d1_id = d1_db.get("id")
 
     # We deliberately do NOT pre-set a password or bind ADMIN/UUID/KEY. The worker treats an env
-    # ADMIN/KEY/UUID as an already-configured admin password and would skip its /install page —
+    # ADMIN/KEY/UUID as an already-configured admin password and would skip its /install page,
     # silently choosing the password for the user. Instead we leave those unset so the worker sends
     # the user to /install on first visit to pick THEIR OWN password. The worker auto-generates and
     # pins its encryption key (auto_key) and node UUID (worker_uuid) in KV on first run.
@@ -407,7 +430,7 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type):
             kv_ns = {"KV": {"namespace_id": kv_id}}
             d1_b = {}
             if d1_id: d1_b = {"DB": {"database_id": d1_id, "type": "d1"}}
-            # No ADMIN/UUID/KEY — let the worker's /install page take the user's own password.
+            # No ADMIN/UUID/KEY, so let the worker's /install page take the user's own password.
             ev = {}
             for k, v in extra_env.items():
                 if v: ev[k] = {"type":"plain_text","value":v}
@@ -531,9 +554,8 @@ class Handler(BaseHTTPRequestHandler):
         page = (
             '<!doctype html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1"><title>Nova</title>'
-            '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet"></head>'
             '<body style="margin:0;background:#05060a;color:#eef1f7;'
-            'font-family:Inter,Vazirmatn,system-ui,-apple-system,Segoe UI,sans-serif;'
+            'font-family:Vazirmatn,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;'
             'display:grid;place-items:center;min-height:100vh">'
             '<div style="max-width:460px;padding:32px;text-align:center;border:1px solid rgba(255,255,255,.12);'
             'border-radius:16px;background:rgba(255,255,255,.04)">'
