@@ -448,13 +448,21 @@ def rand_password(length=18):
     return "".join(secrets.choice(alphabet) for _ in range(length))
 
 
-def claim_panel(panel_url, password, attempts=10, delay=6):
+def claim_panel(panel_url, password, attempts=30, delay=6):
     """Set the admin password ourselves, as soon as the panel answers.
 
     The shipped artifact has no claim-token gate, so between deploy and someone
     setting a password, /install/set is open to whoever reaches it first. That is
     not a small window on a public workers.dev hostname. The Telegram bot closes
     it by claiming immediately, and this does the same.
+
+    Three minutes, because that is how long Cloudflare takes to bring a new address
+    up worldwide and it is the figure Nova's own install message quotes. Sixty seconds
+    was not enough: watched live on 2026-09-14, a brand-new account's workers.dev
+    subdomain did not resolve at all inside the first minute, so every attempt was
+    posting at a hostname that did not exist yet and the panel was handed over
+    unclaimed. A fresh account is the worst case, because the subdomain has to be
+    created before anything can answer on it.
 
     Returns True once the panel accepts the password."""
     url = panel_url.rstrip("/") + "/install/set"
