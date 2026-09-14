@@ -120,8 +120,7 @@
 ### اجرای سریع
 
 ```bash
-curl -fsSL https://novaproxy.online/wizard.py -o nova_wizard.py
-python3 nova_wizard.py
+curl -fsSL https://novaproxy.online/wizard.py -o nova_wizard.py && python3 nova_wizard.py
 ```
 
 یک فایل، بدون `git`. دستیار رابط کاربری‌اش را همراه خودش دارد، پس همین کافی است.
