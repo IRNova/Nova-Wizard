@@ -33,7 +33,7 @@ NOVA_MARK_SVG = (
 # This used to send Wrangler's client id, which works but is not ours: the consent
 # screen said "Wrangler", so people were asked to trust a tool they had not downloaded,
 # and Cloudflare could restrict that client at any time without warning.
-OAUTH_CLIENT_ID = "dcd106de09fd5a650720dd03d8f78c57"
+OAUTH_CLIENT_ID = "64171e17a3242d9f2385c9a8f4f7381f"
 OAUTH_AUTH_URL = "https://dash.cloudflare.com/oauth2/auth"
 OAUTH_TOKEN_URL = "https://dash.cloudflare.com/oauth2/token"
 # Third-party OAuth clients use a different scope namespace from Wrangler's. These are
