@@ -120,18 +120,16 @@
 ### اجرای سریع
 
 ```bash
-# ۱. کلون کردن مخزن
-git clone https://github.com/IRNova/Nova-Wizard.git
-cd Nova-Wizard
-
-# ۲. اجرای مستقیم با Python
+curl -fsSL https://novaproxy.online/wizard.py -o nova_wizard.py
 python3 nova_wizard.py
 ```
+
+یک فایل، بدون `git`. دستیار رابط کاربری‌اش را همراه خودش دارد، پس همین کافی است.
 
 ### پیش‌نیازها
 
 - Python 3.8+ (روی بیشتر توزیع‌ها نصب است)
-- `static/index.html` که با همان کلون به دستت می‌رسد
+- چیز دیگری لازم نیست. دستیار رابط کاربری‌اش را داخل `nova_wizard.py` همراه خودش دارد.
 
 ### نکته
 
