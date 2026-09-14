@@ -36,6 +36,7 @@ NOVA_MARK_SVG = (
 OAUTH_CLIENT_ID = "64171e17a3242d9f2385c9a8f4f7381f"
 OAUTH_AUTH_URL = "https://dash.cloudflare.com/oauth2/auth"
 OAUTH_TOKEN_URL = "https://dash.cloudflare.com/oauth2/token"
+OAUTH_REVOKE_URL = "https://dash.cloudflare.com/oauth2/revoke"
 # Third-party OAuth clients use a different scope namespace from Wrangler's. These are
 # the ids registered on the client above, verified against GET /client/v4/oauth/scopes.
 #
@@ -122,22 +123,56 @@ def oauth_url():
         "code_challenge": gen_challenge(_oauth_code_verifier), "code_challenge_method": "S256"})
     return OAUTH_AUTH_URL + "?" + p
 
-def _make_ssl_ctx(verify=True):
-    ctx = ssl.create_default_context()
-    if not verify:
-        # Fallback only. Some Windows Python installs ship without a CA bundle, which breaks
-        # TLS verification. We try verified first (below) and only use this if that fails.
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-    return ctx
+def _make_ssl_ctx():
+    """A verified TLS context, with certifi's CA bundle if this machine has one.
 
-# Verified opener (secure). If the machine has no CA certs, we lazily fall back to an unverified
-# one inside exchange_token, with a printed warning, never silently insecure by default.
-_OAUTH_OPENER = urlrequest.build_opener(urlrequest.HTTPSHandler(context=_make_ssl_ctx(True)))
-_OAUTH_OPENER_INSECURE = None
+    There is no unverified variant on purpose. The token exchange carries the
+    authorization code AND the PKCE verifier, which together are enough for anyone
+    holding them to mint a token on the user's Cloudflare account. Most of this tool's
+    users are on networks where TLS interception is routine, so retrying that request
+    without verification would hand an interceptor both halves. A missing CA bundle is
+    a machine problem with a real fix, printed below, not a reason to drop verification.
+    """
+    try:
+        import certifi  # not a dependency; used only when the machine already has it
+        return ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        return ssl.create_default_context()
+
+_OAUTH_OPENER = urlrequest.build_opener(urlrequest.HTTPSHandler(context=_make_ssl_ctx()))
+
+CERT_HELP = (
+    "TLS certificates could not be verified on this machine, so the sign-in was stopped.\n"
+    "  This is a certificate store problem, not a Cloudflare problem.\n"
+    "  On Windows:  py -m pip install --upgrade certifi\n"
+    "  On macOS:    run 'Install Certificates.command' inside your Python folder\n"
+    "  Then start the wizard again."
+)
+
+def revoke_oauth_token():
+    """Hand the grant back when the tool exits.
+
+    Without this the access token stays usable on the owner's Cloudflare account for its
+    full lifetime after the window is closed, which is a credential outliving the thing
+    that needed it. Best effort and silent on failure: a revoke that does not land is not
+    a reason to fail a deploy that already succeeded.
+    """
+    global _oauth_token
+    if not _oauth_token:
+        return
+    try:
+        d = urlencode({"token": _oauth_token, "client_id": OAUTH_CLIENT_ID}).encode()
+        req = urlrequest.Request(OAUTH_REVOKE_URL, data=d,
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        with _OAUTH_OPENER.open(req, timeout=10):
+            pass
+        print("  Cloudflare access handed back.")
+    except Exception:
+        pass
+    finally:
+        _oauth_token = None
 
 def exchange_token(code, verifier):
-    global _OAUTH_OPENER_INSECURE
     d = urlencode({"client_id": OAUTH_CLIENT_ID, "code": code, "code_verifier": verifier,
         "redirect_uri": f"http://localhost:{OAUTH_REDIRECT_PORT}/oauth/callback",
         "grant_type": "authorization_code"}).encode()
@@ -147,19 +182,11 @@ def exchange_token(code, verifier):
         with _OAUTH_OPENER.open(req, timeout=30) as r:
             return json.loads(r.read())
     except urlerror.URLError as e:
-        # If TLS verification failed (e.g. machine has no CA bundle), retry once unverified + warn.
+        # A TLS failure here STOPS the exchange. It is never retried unverified: this
+        # request carries the code and the verifier together.
         if isinstance(getattr(e, "reason", None), ssl.SSLError) or "CERTIFICATE" in str(getattr(e, "reason", "")).upper():
-            print("  [warn] TLS certificate could not be verified on this machine, retrying without verification.")
-            if _OAUTH_OPENER_INSECURE is None:
-                _OAUTH_OPENER_INSECURE = urlrequest.build_opener(urlrequest.HTTPSHandler(context=_make_ssl_ctx(False)))
-            try:
-                with _OAUTH_OPENER_INSECURE.open(req, timeout=30) as r:
-                    return json.loads(r.read())
-            except urlerror.HTTPError as e2:
-                raw = e2.read();
-                try: body = json.loads(raw)
-                except: body = raw.decode("utf-8","replace")
-                raise _CFErr(f"Token exchange failed (HTTP {e2.code}): {body}", status=e2.code)
+            print("  [stop] " + CERT_HELP)
+            raise _CFErr("TLS verification failed, so sign-in was stopped. See the message above.")
         raise _CFErr(f"Token exchange network error: {getattr(e,'reason',e)}")
     except urlerror.HTTPError as e:
         raw = e.read()
@@ -700,5 +727,6 @@ def main():
     threading.Timer(1.5, lambda: _wb.open(url)).start()
     try: httpd.serve_forever()
     except KeyboardInterrupt: print("\n  Stopped.")
+    finally: revoke_oauth_token()
 
 if __name__ == "__main__": main()
