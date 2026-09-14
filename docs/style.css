@@ -1,0 +1,315 @@
+/* Hallmark, macrostructure: Narrative Workflow, tone: utilitarian, anchor hue: cyan
+ * Nova Wizard project page. Tokens are lifted verbatim from the wizard's own
+ * static/index.html so the page and the tool read as one product. Self-contained:
+ * no webfonts, no CDN, no remote images, no network at all.
+ * House rule from the panel: the brand gradient is for the Nova mark only.
+ * Actions are solid accent, never gradient.
+ */
+
+/* ---- tokens: dark is the base, exactly as the wizard ships it ---- */
+:root{
+  color-scheme:dark;
+  --bg:#070809; --panel:#0c0e12; --card:#101319; --card2:#0b0d11; --field:#0b0d11;
+  --bd:#1c2027; --bd2:#262b34;
+  --tx:#e9edf4; --tx2:#aeb6c4; --mu:#7b8494;
+  --ac:#22d3ee; --ac2:#a855f7; --ok:#34d399; --dg:#f87171; --wn:#f5b042;
+  --ac-fill:#22d3ee; --ac-fill-h:#3fdcf3; --ac-ink:#04121a; --link:#22d3ee;
+  --ac-soft:rgba(34,211,238,.12); --ac-line:rgba(34,211,238,.34); --ac-deep:#22d3ee;
+  --v-soft:rgba(168,85,247,.10);  --v-line:rgba(168,85,247,.32); --v-ink:#bd8af8;
+  --ok-soft:rgba(52,211,153,.10); --ok-line:rgba(52,211,153,.30);
+  --dg-soft:rgba(248,113,113,.10);--dg-line:rgba(248,113,113,.32);
+  --ring:rgba(34,211,238,.35);
+  /* the focus ring is a non-text UI component: it needs 3:1 against the
+     surface it sits on, which --ac does not reach on the light paper. */
+  --focus:#22d3ee;
+  --shadow:0 1px 0 rgba(255,255,255,.02),0 12px 30px rgba(0,0,0,.45);
+  --nav:rgba(7,8,9,.82);
+  --mark:linear-gradient(80deg,#9d4efb 0%,#02cdf3 100%);
+  --radius:12px; --r-sm:9px; --r-lg:16px; --sp:14px;
+  --font:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --font-fa:'Vazirmatn','Segoe UI',Tahoma,system-ui,Arial,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+  --ease:cubic-bezier(.23,1,.32,1);
+  /* page-only additions */
+  --col:720px; --gutter:clamp(16px,5vw,24px);
+  --gap-sec:clamp(34px,6vw,52px);
+}
+/* The light set is written once. The inline script in each page stamps
+   data-theme on <html> from the saved choice, or from the operating system
+   when there is no saved choice. With scripting off the page stays dark,
+   which is the wizard's own default. */
+:root[data-theme='light']{
+  color-scheme:light;
+  --bg:#f4f6fb; --panel:#ffffff; --card:#ffffff; --card2:#f7f9fc; --field:#f7f9fc;
+  --bd:#e6eaf1; --bd2:#dde2eb;
+  --tx:#101622; --tx2:#3a465c; --mu:#5f6a7d;
+  --ac:#0ea5c4; --ac2:#7c3aed; --ok:#047857; --dg:#dc2626; --wn:#b45309;
+  --ac-fill:#0e7490; --ac-fill-h:#0b6a83; --ac-ink:#ffffff; --link:#0e7490;
+  --ac-soft:rgba(14,165,196,.10); --ac-line:rgba(14,165,196,.34); --ac-deep:#0b5f73;
+  --v-soft:rgba(124,58,237,.07);  --v-line:rgba(124,58,237,.26); --v-ink:#7c3aed;
+  --ok-soft:rgba(4,120,87,.08);   --ok-line:rgba(4,120,87,.26);
+  --dg-soft:rgba(220,38,38,.07);  --dg-line:rgba(220,38,38,.26);
+  --ring:rgba(8,145,178,.28);
+  --focus:#0b5f73;
+  --shadow:0 1px 2px rgba(20,40,80,.04),0 10px 28px rgba(40,60,110,.10);
+  --nav:rgba(244,246,251,.86);
+  --mark:linear-gradient(80deg,#7c3aed 0%,#0891b2 100%);
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;overflow-x:clip}
+body{
+  background:var(--bg);color:var(--tx);font-family:var(--font);
+  font-size:15px;line-height:1.6;min-height:100vh;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+html[lang='fa'] body{font-family:var(--font-fa);line-height:1.85}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+button{font:inherit;color:inherit}
+img{max-width:100%}
+p{text-wrap:pretty}
+
+.skip{
+  position:absolute;inset-inline-start:-9999px;top:8px;z-index:60;
+  background:var(--card);border:1px solid var(--bd2);border-radius:var(--r-sm);
+  padding:9px 14px;font-size:13px;font-weight:600;color:var(--tx);
+}
+.skip:focus{inset-inline-start:12px;text-decoration:none}
+
+/* ---- top bar, same geometry as the wizard ---- */
+.bar{
+  position:sticky;top:0;z-index:20;display:flex;align-items:center;
+  justify-content:space-between;gap:14px;
+  padding:11px clamp(16px,5vw,28px);
+  background:var(--nav);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--bd);
+}
+.logo{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px;letter-spacing:-.01em;color:var(--tx)}
+.logo:hover{text-decoration:none}
+.logo svg{width:22px;height:22px;display:block;flex:0 0 auto}
+html[lang='fa'] .logo{letter-spacing:normal}
+.controls{display:inline-flex;align-items:center;gap:8px}
+.pill{
+  display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 13px;
+  border-radius:var(--r-sm);border:1px solid var(--bd);background:var(--card);
+  color:var(--tx2);font-size:12.5px;font-weight:600;
+  transition:color .13s var(--ease),border-color .13s var(--ease);
+}
+.pill:hover{color:var(--tx);border-color:var(--bd2);text-decoration:none}
+.theme{
+  display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
+  border-radius:var(--r-sm);border:1px solid var(--bd);background:var(--card);
+  color:var(--tx2);cursor:pointer;font-size:14px;line-height:1;
+  transition:color .13s var(--ease),border-color .13s var(--ease);
+}
+.theme:hover{color:var(--tx);border-color:var(--bd2)}
+.theme:active{transform:scale(.96)}
+
+/* ---- page column ---- */
+.wrap{max-width:var(--col);margin:0 auto;padding:clamp(30px,6vw,52px) var(--gutter) 56px}
+section{margin-top:var(--gap-sec);scroll-margin-top:74px}
+section>h3{
+  font-size:15px;font-weight:600;letter-spacing:-.012em;margin:26px 0 10px;
+  color:var(--tx);
+}
+html[lang='fa'] section>h3{letter-spacing:normal}
+section>h2{
+  font-size:18px;font-weight:600;letter-spacing:-.014em;margin:0 0 10px;
+  padding-top:var(--gap-sec);border-top:1px solid var(--bd);
+}
+html[lang='fa'] section>h2{letter-spacing:normal}
+section:first-of-type>h2{border-top:0;padding-top:0}
+.lead{color:var(--tx2);margin:0 0 18px;font-size:14.5px;line-height:1.7}
+p{margin:0 0 14px}
+p:last-child{margin-bottom:0}
+
+/* ---- opening ---- */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11.5px;font-weight:600;color:var(--tx2);
+  padding:4px 11px 4px 9px;border-radius:999px;
+  border:1px solid var(--bd2);background:var(--card2);
+}
+.eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--ac);
+  box-shadow:0 0 0 3px var(--ac-soft);flex:0 0 auto;
+}
+[dir='rtl'] .eyebrow{padding:4px 9px 4px 11px}
+h1{
+  font-size:clamp(1.7rem,5.2vw,2.15rem);font-weight:700;letter-spacing:-.024em;
+  line-height:1.16;margin:14px 0 10px;text-wrap:balance;
+  overflow-wrap:anywhere;min-width:0;
+}
+html[lang='fa'] h1{letter-spacing:normal;line-height:1.5}
+.grad{background:var(--mark);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--tx2);margin:0;max-width:56ch;font-size:15.5px;line-height:1.68}
+
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:44px;padding:0 20px;border-radius:var(--r-sm);
+  font-size:13.5px;font-weight:600;letter-spacing:-.005em;
+  background:var(--ac-fill);color:var(--ac-ink);border:1px solid transparent;
+  cursor:pointer;white-space:nowrap;
+  transition:background .13s var(--ease),transform .13s var(--ease),border-color .13s var(--ease),color .13s var(--ease);
+}
+.btn:hover{background:var(--ac-fill-h);text-decoration:none}
+.btn:active{transform:scale(.985)}
+.btn-ghost{background:var(--card2);border-color:var(--bd2);color:var(--tx)}
+.btn-ghost:hover{background:var(--card2);border-color:var(--mu);color:var(--tx)}
+html[lang='fa'] .btn{letter-spacing:normal}
+
+/* ---- the fork: two balanced routes ---- */
+.fork{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px}
+.route{
+  display:flex;flex-direction:column;
+  background:var(--card);border:1px solid var(--bd);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:18px;
+}
+.route h3{font-size:15px;font-weight:600;letter-spacing:-.012em;margin:0 0 7px}
+html[lang='fa'] .route h3{letter-spacing:normal}
+.route p{color:var(--tx2);font-size:13.5px;line-height:1.65;margin:0 0 14px}
+.route .go{margin-top:auto;font-size:13.5px;font-weight:600}
+.route.here{border-color:var(--ac-line);background:linear-gradient(var(--ac-soft),var(--ac-soft)),var(--card)}
+.route.here .go{color:var(--mu);font-weight:600}
+
+/* ---- notes, same voice as the wizard ---- */
+.note{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:12px 14px;margin-top:16px;border-radius:var(--r-sm);
+  font-size:13px;line-height:1.65;
+  border:1px solid var(--bd);background:var(--card2);color:var(--tx2);
+}
+.note svg{width:16px;height:16px;flex:0 0 auto;margin-top:3px;color:var(--mu)}
+.note b{color:var(--tx);font-weight:600}
+.note p{margin:0 0 8px}
+.note p:last-child{margin-bottom:0}
+.note.iran{background:var(--v-soft);border-color:var(--v-line)}
+.note.iran svg{color:var(--v-ink)}
+.note.iran b{color:var(--v-ink)}
+
+/* ---- the stage rail: the wizard's own step chips, laid out vertically ---- */
+.rail{list-style:none;margin:0;padding:0}
+.rail li{position:relative;display:flex;gap:14px;padding-bottom:20px}
+.rail li:last-child{padding-bottom:0}
+.rail li::before{
+  content:'';position:absolute;top:29px;bottom:4px;width:1px;background:var(--bd2);
+  inset-inline-start:12px;
+}
+.rail li:last-child::before{display:none}
+.num{
+  position:relative;z-index:1;flex:0 0 auto;
+  width:25px;height:25px;border-radius:50%;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;
+  background:var(--ac-soft);border:1px solid var(--ac-line);color:var(--ac-deep);
+}
+.rail h3{font-size:14.5px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em}
+html[lang='fa'] .rail h3{letter-spacing:normal}
+.rail p{color:var(--tx2);font-size:13.5px;line-height:1.65;margin:0}
+.rail .body{min-width:0}
+
+/* ---- requirement rows ---- */
+.reqs{margin:0;padding:0}
+.reqs div{
+  display:grid;grid-template-columns:minmax(0,1fr);gap:2px;
+  padding:13px 0;border-top:1px solid var(--bd);
+}
+.reqs div:first-child{border-top:0;padding-top:0}
+.reqs dt{font-weight:600;font-size:14px;color:var(--tx)}
+.reqs dd{margin:0;color:var(--tx2);font-size:13.5px;line-height:1.65}
+@media (min-width:640px){
+  .reqs div{grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:16px}
+}
+
+/* ---- code ---- */
+.code{position:relative;margin:0 0 14px}
+.code pre{
+  margin:0;overflow-x:auto;
+  background:var(--card2);border:1px solid var(--bd2);border-radius:var(--r-sm);
+  padding:14px 16px;padding-right:58px;
+  font-family:var(--font-mono);font-size:13px;line-height:1.8;color:var(--tx);
+  direction:ltr;text-align:left;
+}
+.code pre code{font:inherit;color:inherit;background:none;border:0;padding:0}
+.copy{
+  /* the code itself is always LTR, so the button is pinned to the physical
+     right on both the English and the Farsi page. */
+  position:absolute;top:8px;right:8px;
+  width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;
+  border-radius:7px;border:1px solid var(--bd2);background:var(--card);
+  color:var(--mu);cursor:pointer;
+  transition:color .13s var(--ease),border-color .13s var(--ease);
+}
+.copy:hover{color:var(--tx);border-color:var(--mu)}
+.copy:active{transform:scale(.94)}
+.copy svg{width:15px;height:15px;pointer-events:none}
+.copy[data-done='1']{color:var(--ok);border-color:var(--ok-line)}
+.cap{font-size:12.5px;color:var(--mu);margin:0 0 8px}
+code{
+  font-family:var(--font-mono);font-size:.88em;
+  background:var(--card2);border:1px solid var(--bd2);border-radius:5px;
+  padding:1px 6px;color:var(--link);unicode-bidi:isolate;
+}
+[dir='rtl'] :is(a,code,strong,kbd){unicode-bidi:isolate}
+
+/* ---- transcript: real terminal output, no fake window chrome ---- */
+.term{
+  margin:0 0 14px;overflow-x:auto;
+  background:var(--card2);border:1px solid var(--bd);border-radius:var(--r-sm);
+  padding:14px 16px;font-family:var(--font-mono);font-size:12.5px;line-height:1.75;
+  color:var(--tx2);direction:ltr;text-align:left;
+}
+.term b{color:var(--tx);font-weight:600}
+
+/* ---- screenshot ---- */
+figure{
+  margin:22px 0 0;padding:clamp(10px,2.4vw,18px);
+  background:var(--card2);border:1px solid var(--bd);border-radius:var(--r-lg);
+}
+figure img{
+  display:block;width:100%;height:auto;
+  border:1px solid var(--bd2);border-radius:var(--r-sm);
+}
+figcaption{font-size:12.5px;color:var(--mu);margin-top:11px;line-height:1.6}
+
+/* ---- lists ---- */
+.plain{margin:0 0 14px;padding-inline-start:20px;color:var(--tx2);font-size:14px}
+.plain li{margin-bottom:7px}
+.plain li:last-child{margin-bottom:0}
+.plain b{color:var(--tx);font-weight:600}
+
+/* ---- footer ---- */
+.foot{margin-top:var(--gap-sec);padding-top:26px;border-top:1px solid var(--bd);text-align:center}
+.social{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+.social a{
+  display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;
+  border-radius:var(--r-sm);color:var(--mu);
+  transition:color .13s var(--ease),background .13s var(--ease);
+}
+.social a:hover{color:var(--tx);background:var(--card2);text-decoration:none}
+.social svg{width:18px;height:18px}
+.foot-line{font-size:12px;color:var(--mu);margin:0}
+.foot-line a{color:var(--mu)}
+.foot-line a:hover{color:var(--tx)}
+
+/* ---- toast, same as the wizard ---- */
+.toast{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+  background:var(--tx);color:var(--bg);padding:8px 18px;border-radius:var(--r-sm);
+  font-size:12.5px;font-weight:600;opacity:0;transition:opacity .25s var(--ease);
+  pointer-events:none;z-index:50;
+}
+.toast.show{opacity:1}
+
+@media (max-width:560px){
+  .route{padding:16px}
+  .btn{width:100%}
+  .code pre{font-size:12.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms !important;animation-duration:.01ms !important}
+  .btn:active,.copy:active,.theme:active{transform:none}
+}
