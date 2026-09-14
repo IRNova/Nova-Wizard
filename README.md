@@ -119,8 +119,7 @@ Nova Wizard runs natively on Linux, no EXE needed.
 ### Quick start
 
 ```bash
-curl -fsSL https://novaproxy.online/wizard.py -o nova_wizard.py
-python3 nova_wizard.py
+curl -fsSL https://novaproxy.online/wizard.py -o nova_wizard.py && python3 nova_wizard.py
 ```
 
 One file, no `git`. The wizard carries its own interface, so this is everything it needs.
