@@ -448,6 +448,14 @@ def rand_password(length=18):
     return "".join(secrets.choice(alphabet) for _ in range(length))
 
 
+# Cloudflare answers Python's default urllib User-Agent with 403 error code 1010,
+# a browser-signature block, before the request ever reaches the panel. Every claim
+# failed on it and the failure was swallowed, which is why three separate diagnoses
+# blamed DNS and propagation instead. curl succeeded against the same endpoint the
+# whole time, which should have been the clue.
+BROWSER_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"
+
+
 def claim_panel(panel_urls, password, attempts=30, delay=6):
     """Set the admin password ourselves, as soon as the panel answers.
 
@@ -475,17 +483,37 @@ def claim_panel(panel_urls, password, attempts=30, delay=6):
         panel_urls = [panel_urls]
     targets = [u.rstrip("/") + "/install/set" for u in panel_urls if u]
     body = json.dumps({"password": password}).encode()
-    for _ in range(attempts):
+    # Every attempt reports why it failed. The first version swallowed all of them,
+    # which made a failed claim indistinguishable from a panel that refused, a
+    # hostname that would not resolve, and a TLS error, and three separate diagnoses
+    # were made from guesses because of it.
+    seen = {}
+    for attempt in range(1, attempts + 1):
         for url in targets:
+            host = urlparse(url).hostname or url
             try:
                 req = urlrequest.Request(url, data=body, method="POST",
-                                         headers={"Content-Type": "application/json"})
+                                         headers={"Content-Type": "application/json",
+                                                  "User-Agent": BROWSER_UA})
                 with urlrequest.urlopen(req, timeout=10, context=_make_ssl_ctx()) as r:
                     if 200 <= r.status < 300:
+                        print(f"  [claim] {host}: claimed on attempt {attempt}")
                         return url[: -len("/install/set")]
-            except Exception:
-                pass
+                    why = f"HTTP {r.status}"
+            except urlerror.HTTPError as e:
+                detail = ""
+                try: detail = e.read(120).decode("utf-8", "replace").strip()
+                except Exception: pass
+                why = f"HTTP {e.code} {detail}"
+            except Exception as e:
+                why = f"{type(e).__name__}: {e}"
+            # One line per DISTINCT reason per host, so a three minute wait does not
+            # print sixty identical lines, and a reason that changes is visible.
+            if seen.get(host) != why:
+                seen[host] = why
+                print(f"  [claim] {host}: {why}")
         time.sleep(delay)
+    print(f"  [claim] gave up after {attempts * delay}s")
     return ""
 
 
@@ -584,7 +612,11 @@ def deploy(cf, aid, worker_name, kv_title, d1_name, extra_env, deploy_type, path
             pj = cf.req("GET", f"/accounts/{quote(aid)}/pages/projects/{quote(worker_name)}")
             sub = (pj.get("result") or {}).get("subdomain")
         except: pass
-        url = f"https://{worker_name}.{sub}" if sub else f"https://{worker_name}.pages.dev"
+        # The project's Pages hostname is simply <project>.pages.dev, which is what the
+        # Telegram bot uses for its doors. The API's `subdomain` field already IS that
+        # full hostname, so prefixing the project name again produced
+        # <name>.<name>.pages.dev and every claim through the door failed DNS.
+        url = f"https://{sub}" if sub and sub.startswith(worker_name + ".") else f"https://{worker_name}.pages.dev"
     else:
         body, ct = build_multi(meta, code)
         cf.req("PUT", f"/accounts/{quote(aid)}/workers/scripts/{quote(worker_name)}", data=body, ctype=ct)
