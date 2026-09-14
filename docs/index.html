@@ -138,7 +138,7 @@ document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
       </div>
       <div>
         <dt>A connection that reaches Cloudflare</dt>
-        <dd>The wizard talks to Cloudflare and to GitHub. Inside Iran the Cloudflare sign-in page is usually blocked, so turn on whatever VPN you already use before you start.</dd>
+        <dd>The wizard talks to Cloudflare and to GitHub. If either one will not open for you, turn on whatever VPN you already use before you start.</dd>
       </div>
     </dl>
     <div class="note">
@@ -206,7 +206,7 @@ pyinstaller --onefile --name NovaWizard --add-data "static;static" --icon app.ic
     <p>When it finishes, the wizard shows the panel address and the details for your first sign-in. Open the panel and set your own admin password straight away.</p>
     <div class="note iran">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.2 9h17.6M3.2 15h17.6"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg>
-      <div><b>Inside Iran:</b> workers.dev addresses are filtered. In the Cloudflare dashboard, add a Custom Domain to the Worker and use that address instead.</div>
+      <div><b>Inside Iran:</b> workers.dev and pages.dev reach Iran at the moment, but that has changed before and will change again. If your address stops opening, add a Custom Domain to the Worker in the Cloudflare dashboard and use that instead.</div>
     </div>
   </section>
 
