@@ -212,7 +212,7 @@ GITHUB_WORKER_URL = "https://raw.githubusercontent.com/IRNova/Nova-Proxy/refs/he
 # neither does: this tool downloads an executable over the network and hands it
 # straight to the user's own Cloudflare account, so an unverified download is a
 # supply-chain hole. Bump this together with the bot's WORKER_JS_SHA256.
-WORKER_SHA256 = "c69c9b05b670c09083f5dd9c18c1d482173ef13fe493d712e367eb3e9c5ae010"
+WORKER_SHA256 = "801f2d0c5b6b9ead5500eec4d950d3ba9dbbc057249d2310e56d8ec76af28c8b"
 CF_API_BASE = "https://api.cloudflare.com/client/v4"
 LOCAL_TOKEN = secrets.token_urlsafe(32)
 COOKIE_NAME = "nova_token"
