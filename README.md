@@ -1,191 +1,25 @@
-<div align="center">
-
-  <img src="./assets/readme/hero.svg" width="100%" alt="Nova Wizard, a local OAuth deployer for Nova Proxy on Cloudflare Workers. One click, local OAuth with no tokens, Windows and Linux.">
-
-  <p>
-    <a href="README.fa.md">🇮🇷 فارسی</a>
-  </p>
-  <p>
-<div align="center">
-
-[![Website](https://img.shields.io/badge/🌐%20Website-novaproxy.online-0ea5e9?style=for-the-badge)](https://novaproxy.online/)
-[![Telegram Channel](https://img.shields.io/badge/✈️%20Telegram%20Channel-@irnova-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova)
-[![Telegram Group](https://img.shields.io/badge/👥%20Telegram%20Group-@irnova__group-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova_group)
-[![YouTube](https://img.shields.io/badge/▶️%20YouTube-@novaproxyir-ff0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/@novaproxyir)
-[![X (Twitter)](https://img.shields.io/badge/𝕏%20X-@irNovaProxy-000000?style=for-the-badge&logo=x)](https://x.com/irNovaProxy)
-</div>
-
----
-  </p>
-  <p>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple?style=for-the-badge" alt="License"></a>
-    <a href="https://github.com/IRNova/Nova-Proxy"><img src="https://img.shields.io/badge/version-4.1.4-blueviolet?style=for-the-badge" alt="Version"></a>
-    <a href="https://github.com/IRNova/Nova-Proxy"><img src="https://img.shields.io/github/stars/IRNova/Nova-Proxy?style=for-the-badge&color=0ea5e9" alt="Stars"></a>
-  </p>
-</div>
+> **ادغام شد / Merged:** کد دسکتاپ به [`IRNova/NovaInstall/desktop`](https://github.com/IRNova/NovaInstall/tree/main/desktop) منتقل شده است.
+>
+> - نصب وب: https://irnova.github.io/NovaInstall/
+> - سورس دسکتاپ: https://github.com/IRNova/NovaInstall/tree/main/desktop
+> - EXE: [NovaWizard.exe](https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe)
+>
+> این ریپو را می‌توانید **Archive** کنید.
 
 ---
 
-<a id="what-is-nova-wizard"></a>
+# Nova Wizard
 
-<img src="./assets/readme/section-what.svg" width="100%" alt="What is Nova Wizard: deploys the Nova Proxy worker to your own Cloudflare account.">
+Local **OAuth** installer for Nova Worker on Cloudflare (no API token paste).
 
-Nova Wizard is a **local** Windows tool that deploys the [Nova Proxy](https://github.com/IRNova/Nova-Proxy) worker to your Cloudflare account using **OAuth**, no API tokens, no API keys, no third-party servers. Everything runs on your own machine.
+## Preferred installs
 
----
-
-<a id="quick-install--one-click-via-website"></a>
-
-<img src="./assets/readme/section-install.svg" width="100%" alt="Quick Install: one click on the website, authorize Cloudflare, done.">
-
-The fastest way to deploy Nova Proxy is through our official website:
-
-[**🚀 Install from novaproxy.online**](https://novaproxy.online/setup/)
-
-No download, no setup, just click, authorize Cloudflare, and you're done. This method is faster than running the local tool.
-
-The local **Nova Wizard** (below) is an alternative for users who prefer running everything offline on their own machine.
-
----
-
-<a id="download"></a>
-
-<img src="./assets/readme/section-download.svg" width="100%" alt="Download: portable EXE for Windows, run with Python on Linux.">
-
-[**⬇ Download NovaWizard.exe**](https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe) (8.4 MB), Windows 64-bit, portable
-
----
-
-<a id="features"></a>
-
-<img src="./assets/readme/section-features.svg" width="100%" alt="Features: OAuth login, automatic Worker, KV and D1 setup, private and local.">
-
-- **OAuth login:** Cloudflare authorization in one click, no token to create or manage
-- **Auto-setup:** Worker, KV namespace, and D1 database are created automatically
-- **Custom names:** You can rename the worker, KV, and D1 before deploying
-- **Private & local:** Your Cloudflare credentials never leave your machine
-- **Bilingual:** English and Persian (فارسی) UI
-- **Single EXE:** No Python or dependencies needed to run
-
----
-
-<a id="how-to-use"></a>
-
-<img src="./assets/readme/section-howto.svg" width="100%" alt="How to Use: from login to a live panel in eight short steps.">
-
-1. **Run** `NovaWizard.exe`, a terminal window opens with a local URL.
-2. **Open your browser**, it opens automatically at `http://127.0.0.1:8000/?token=...`
-3. **Click "Login with Cloudflare"**, Cloudflare opens in a new tab.
-4. **Authorize on Cloudflare**, approve the access request, then close the tab.
-5. **Choose your account**, select which Cloudflare account to deploy on.
-6. **Name your resources**, worker name, KV namespace, D1 database are pre-filled. You can change them.
-7. **Click "Deploy now"**, the worker is downloaded from GitHub, uploaded to Cloudflare, KV + D1 are created and bound.
-8. **Done!** Open your panel, set your own admin password on first visit.
-
-> You can rename the worker, KV namespace, and D1 database **before** deploying. The names are random by default but fully editable.
-
----
-
-## Screenshots
-
-*(Coming soon)*
-
----
-
-## Mobile Versions
-
-| Platform | Status | Details |
-|----------|--------|---------|
-| **Android** | 🚀 Coming soon | Merged with <a href="https://github.com/IRNova/Nova-Radar">Nova Radar</a> Android, a single app for deployment + proxy |
-| **iOS** | 🔧 In development | Standalone iOS app, currently under development |
-
----
-
-<a id="requirements"></a>
-
-<img src="./assets/readme/section-reqs.svg" width="100%" alt="Requirements: Windows or Linux, a Cloudflare account, an internet connection.">
-
-- **Windows** 7 / 8 / 10 / 11 (64-bit)
-- **Linux:** Python 3.8+ (run directly, see below)
-- A Cloudflare account
-- Internet connection
-
----
-
-## Linux
-
-Nova Wizard runs natively on Linux, no EXE needed.
-
-### Quick start
-
-```bash
-curl -fsSL https://novaproxy.online/wizard.py -o nova_wizard.py && python3 nova_wizard.py
-```
-
-One file, no `git`. The wizard carries its own interface, so this is everything it needs.
-
-### Requirements
-
-- Python 3.8+ (built-in on most distros)
-- Nothing else. The wizard carries its own interface inside `nova_wizard.py`.
-
----
-
-<a id="build-from-source"></a>
-
-<img src="./assets/readme/section-build.svg" width="100%" alt="Build from Source: clone the worker, install PyInstaller, produce the EXE yourself.">
-
-```bash
-# 1. Clone the Nova-Proxy worker
-git clone https://github.com/IRNova/Nova-Proxy.git
-
-# 2. Set up Python 3.14+
-pip install pyinstaller Pillow
-
-# 3. Build the EXE
-pyinstaller --onefile --name NovaWizard --add-data "static;static" --icon app.ico nova_wizard.py
-
-# Note: the static/ folder (index.html, etc.) is required at build time
-# but is not distributed in source
-```
-
----
-
-## 🌐 Links
-
-<div align="center">
-
-[![Website](https://img.shields.io/badge/%F0%9F%8C%90%20Website-novaproxy.online-0ea5e9?style=for-the-badge)](https://novaproxy.online/)
-[![Telegram Channel](https://img.shields.io/badge/%E2%9C%88%EF%B8%8F%20Telegram%20Channel-@irnova-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova)
-[![Telegram Group](https://img.shields.io/badge/%F0%9F%91%A5%20Telegram%20Group-@irnova__group-0ea5e9?style=for-the-badge&logo=telegram)](https://t.me/irnova_group)
-[![YouTube](https://img.shields.io/badge/%E2%96%B6%EF%B8%8F%20YouTube-@novaproxyir-ff0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/@novaproxyir)
-[![X (Twitter)](https://img.shields.io/badge/%F0%9D%95%8F%20X-@irNovaProxy-000000?style=for-the-badge&logo=x)](https://x.com/irNovaProxy)
-[![GitHub](https://img.shields.io/badge/%F0%9F%90%99%20GitHub-IRNova/Nova--Proxy-181717?style=for-the-badge&logo=github)](https://github.com/IRNova/Nova-Proxy)
-
-</div>
-
----
-
-## Support
-
-If you like this project, support us with a donation.
-
-**TON:**
-
-```
-UQD51lGC35rP_SbVYgbFA7CEEii4GVMFgqj4N8fiGi6m425w
-```
-
----
+| Channel | Link |
+|---------|------|
+| **Web** | https://irnova.github.io/NovaInstall/ |
+| **Desktop source** | https://github.com/IRNova/NovaInstall/tree/main/desktop |
+| **Windows EXE** | [Download](https://github.com/IRNova/Nova-Wizard/releases/download/V1.0.0/NovaWizard.exe) |
 
 ## License
 
 MIT
-
----
-
-<div align="center">
-
-Built by <a href="https://github.com/iiviirv"><b>@iiviirv</b></a> for the Nova Proxy Group.
-
-</div>
